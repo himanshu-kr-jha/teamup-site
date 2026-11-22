@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>TeamUp: chat, calls and tasks on your own server</title>
+  <meta name="description" content="TeamUp is a self-hosted team workspace: chat, video calls with meeting notes, tasks, calendar and files in one app on your own server. Your data, no seat pricing, MIT licence.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self' mailto: https:; base-uri 'self'; object-src 'none'">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#020817" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <link rel="canonical" href="https://himanshu-kr-jha.github.io/teamup-site/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="TeamUp">
+  <meta property="og:title" content="TeamUp: your team's whole day, on your own server">
+  <meta property="og:description" content="Chat, video calls with meeting notes, tasks, calendar and files in one app you host. Your data, no seat pricing, MIT licence.">
+  <meta property="og:url" content="https://himanshu-kr-jha.github.io/teamup-site/">
+  <meta property="og:image" content="https://himanshu-kr-jha.github.io/teamup-site/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="TeamUp: your team's whole day, on your own server">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="TeamUp: your team's whole day, on your own server">
+  <meta name="twitter:description" content="Chat, video calls with meeting notes, tasks, calendar and files in one app you host. No seat pricing, MIT licence.">
+  <meta name="twitter:image" content="https://himanshu-kr-jha.github.io/teamup-site/assets/img/og.png">
+  <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="assets/js/theme.js"></script>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <script src="assets/js/main.js" defer></script>
+  <script src="assets/js/demos.js" defer></script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"TeamUp","applicationCategory":"BusinessApplication","operatingSystem":"Linux","softwareVersion":"1.0.0","license":"https://opensource.org/licenses/MIT","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://github.com/himanshu-kr-jha/teamup.sh","downloadUrl":"https://github.com/himanshu-kr-jha/teamup.sh/releases/tag/v1.0.0","description":"Self-hosted team workspace: chat, video calls with meeting notes, tasks, calendar and files in one Go binary on your own server."}</script>
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-logo" viewBox="0 0 24 24"><path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m16 13 5.2 3.5a.5.5 0 0 0 .8-.4V7.9a.5.5 0 0 0-.8-.4L16 11"/><rect x="2" y="6" width="14" height="12" rx="2"/></symbol>
+  <symbol id="i-video-off" viewBox="0 0 24 24"><path d="M10.7 6H14a2 2 0 0 1 2 2v3.3l1 1L22 8v8M16 16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2M2 2l20 20"/></symbol>
+  <symbol id="i-notes" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v5h6M8 13h8M8 17h5"/></symbol>
+  <symbol id="i-tasks" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-server" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="8" rx="2"/><rect x="2" y="13" width="20" height="8" rx="2"/><path d="M6 7h.01M6 17h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.1-1.3-.3-2.5-1-3.5.3-1.2.3-2.4 0-3.5 0 0-1 0-3 1.5-2.6-.5-5.4-.5-8 0C6 2 5 2 5 2c-.3 1.1-.3 2.3 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.4.5-.7 1-.8 1.6-.2.6-.3 1.3-.2 1.9v4"/><path d="M9 18c-4.5 2-5-2-7-2"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.9-6-2.4l-3.6-3.6a2 2 0 0 1 2.8-2.8L7 15"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></symbol>
+  <symbol id="i-mic-off" viewBox="0 0 24 24"><path d="M2 2l20 20M18.9 13.4A7 7 0 0 0 19 12v-2M5 10v2a7 7 0 0 0 12 5M15 9.3V5a3 3 0 0 0-5.7-1.3M9 9v3a3 3 0 0 0 5.1 2.1M12 19v3"/></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01M2 8.8a15 15 0 0 1 20 0M5 12.9a10 10 0 0 1 14 0M8.5 16.4a5 5 0 0 1 7 0"/></symbol>
+  <symbol id="i-wifi-low" viewBox="0 0 24 24"><path d="M12 20h.01M8.5 16.4a5 5 0 0 1 7 0M5 12.9a10 10 0 0 1 5.2-2.8M19 12.9a10 10 0 0 0-2.3-1.7M2 8.8a15 15 0 0 1 4.2-2.8M22 8.8A15 15 0 0 0 10.7 4.2M2 2l20 20"/></symbol>
+  <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></symbol>
+  <symbol id="i-screen" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M9 10l3-3 3 3M12 7v6"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.9 15.5A2 2 0 0 0 8.5 14l-6.1-1.6a.5.5 0 0 1 0-1L8.5 9.9A2 2 0 0 0 9.9 8.5l1.6-6.1a.5.5 0 0 1 1 0l1.6 6.1a2 2 0 0 0 1.4 1.4l6.1 1.6a.5.5 0 0 1 0 1L15.5 14a2 2 0 0 0-1.4 1.4l-1.6 6.1a.5.5 0 0 1-1 0zM20 3v4M22 5h-4"/></symbol>
+  <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4M3.3 19a10 10 0 1 1 17.4 0"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4v16l13-8z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 4v16M16 4v16"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1"/><circle cx="9" cy="12" r="1"/><circle cx="9" cy="18" r="1"/><circle cx="15" cy="6" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="18" r="1"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+  <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 15-6.7L21 8M21 3v5h-5M21 12a9 9 0 0 1-15 6.7L3 16M3 21v-5h5"/></symbol>
+  <symbol id="i-volume" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4zM15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></symbol>
+  <symbol id="i-blocked" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M7 16l4-5 4 3 5-7"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-door" viewBox="0 0 24 24"><path d="M9 21V3h10v18M3 21h18M15 12h.01M9 3 5 5v16"/></symbol>
+  <symbol id="i-phone-call" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></symbol>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="./" aria-label="TeamUp home">
+      <span class="brand-mark" aria-hidden="true"><svg><use href="#i-logo"/></svg></span>
+      <span class="brand-name">TeamUp</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="nav-list" data-nav-toggle>
+        <svg aria-hidden="true"><use href="#i-menu"/></svg><span class="sr-only">Menu</span>
+      </button>
+      <ul class="nav-list" id="nav-list" data-nav-list>
+        <li><a href="#tour">Product</a></li>
+        <li><a href="#calls">Calls</a></li>
+        <li><a href="#scrum">Scrum</a></li>
+        <li><a href="#own">Self-hosting</a></li>
+        <li><a href="customers.html">Customers</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li class="nav-gh"><a href="https://github.com/himanshu-kr-jha/teamup.sh" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg>GitHub</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to light mode">
+        <svg class="when-dark" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="when-light" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="#demo" data-demo>Book a demo</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-bg" aria-hidden="true" data-hero-bg>
+    <div class="mosaic" data-mosaic>
+      <div class="mosaic-col">
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="chat-sm" data-poster="chat-sm"></video></div>
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="tasks-sm" data-poster="tasks-sm"></video></div>
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="search-sm" data-poster="search-sm"></video></div>
+      </div>
+      <div class="mosaic-col">
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="call-sm" data-poster="call-sm"></video></div>
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="notes-sm" data-poster="notes-sm"></video></div>
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="calendar-sm" data-poster="calendar-sm"></video></div>
+      </div>
+      <div class="mosaic-col">
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="standup-sm" data-poster="standup-sm"></video></div>
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="system-sm" data-poster="system-sm"></video></div>
+        <div class="win"><span class="win-bar"></span><video muted loop playsinline preload="none" data-lazy-video data-name="chat-sm" data-poster="chat-sm"></video></div>
+      </div>
+    </div>
+    <div class="hero-scrim"></div>
+  </div>
+  <div class="container hero-inner">
+    <a class="pill" href="https://github.com/himanshu-kr-jha/teamup.sh/releases/tag/v1.0.0" rel="noopener">
+      <span class="pill-tag">New</span> TeamUp v1.0.0 is out <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+    </a>
+    <h1 id="hero-title" class="hero-title">Your team's whole day,<br> <span class="grad">on your own server.</span></h1>
+    <p class="hero-sub">Chat, video calls with meeting notes, tasks, calendar and files in one app that you host. Your data stays with you, and there is no price per seat.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary btn-lg" href="#demo" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost btn-lg" href="https://github.com/himanshu-kr-jha/teamup.sh" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Self-host free on GitHub</a>
+    </div>
+    <ul class="hero-facts" aria-label="At a glance">
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>One Go binary</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>MIT licence</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>No seat pricing</li>
+      <li><svg aria-hidden="true"><use href="#i-check"/></svg>Installs on phones</li>
+    </ul>
+  </div>
+  <button class="hero-motion" type="button" data-motion-toggle aria-pressed="false">
+    <svg class="when-playing" aria-hidden="true"><use href="#i-pause"/></svg>
+    <svg class="when-paused" aria-hidden="true"><use href="#i-play"/></svg>
+    <span data-motion-label>Pause background</span>
+  </button>
+</section>
+
+<!-- PROOF -->
+<section class="proof" aria-label="Facts about TeamUp">
+  <div class="container proof-grid">
+    <div class="proof-item"><strong>~500</strong><span>busy people on one 2-CPU server in our load test</span></div>
+    <div class="proof-item"><strong>Every day</strong><span>Cognecto runs its stand-ups, calls and scrum on it. <a href="customers.html">See how</a></span></div>
+    <div class="proof-item"><strong>v1.0.0</strong><span>released on GitHub, MIT licensed, no CLA</span></div>
+    <div class="proof-item"><strong>1 binary</strong><span>with the web app compiled in, so the API and UI never drift</span></div>
+  </div>
+</section>
+
+<!-- PROBLEM / PROMISE -->
+<section class="section" id="why" aria-labelledby="why-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Why TeamUp</p>
+      <h2 id="why-title">Five apps, five bills, five places your data lives.</h2>
+      <p class="lede">A message in one app, the call in another, notes in a third, tasks and the calendar somewhere else. Each one charges per person and keeps a copy of your work. TeamUp puts the whole day in one place, on a server you own.</p>
+    </div>
+    <div class="split-why reveal">
+      <div class="scatter" aria-hidden="true">
+        <span class="scatter-app s1"><svg><use href="#i-chat"/></svg>Chat app<em>per seat</em></span>
+        <span class="scatter-app s2"><svg><use href="#i-video"/></svg>Video app<em>per seat</em></span>
+        <span class="scatter-app s3"><svg><use href="#i-notes"/></svg>Note-taker<em>per seat</em></span>
+        <span class="scatter-app s4"><svg><use href="#i-tasks"/></svg>Task tracker<em>per seat</em></span>
+        <span class="scatter-app s5"><svg><use href="#i-calendar"/></svg>Calendar<em>per seat</em></span>
+        <span class="scatter-arrow"><svg><use href="#i-arrow"/></svg></span>
+        <span class="scatter-one"><span class="brand-mark"><svg><use href="#i-logo"/></svg></span><b>TeamUp</b><em>one server</em></span>
+      </div>
+      <ul class="promise-list">
+        <li>
+          <span class="promise-icon"><svg aria-hidden="true"><use href="#i-sparkles"/></svg></span>
+          <div><h3>One flow, not five tabs</h3><p>A message becomes a call, the call becomes minutes, the minutes become tasks with owners. Nobody copies anything between apps.</p></div>
+        </li>
+        <li>
+          <span class="promise-icon"><svg aria-hidden="true"><use href="#i-server"/></svg></span>
+          <div><h3>Your server, your data</h3><p>Messages, files, calls and tasks live on a machine you control, in Postgres and S3 storage you can back up and inspect.</p></div>
+        </li>
+        <li>
+          <span class="promise-icon"><svg aria-hidden="true"><use href="#i-users"/></svg></span>
+          <div><h3>Pay for a server, not for seats</h3><p>The software is free. The 51st person you add costs the same as the 50th: nothing more.</p></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT TOUR -->
+<section class="section section-alt" id="tour" aria-labelledby="tour-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Product tour</p>
+      <h2 id="tour-title">A working day in TeamUp</h2>
+      <p class="lede">Real screens, recorded in the app, at the made-up company Nimbus Labs. Scroll and the screen follows.</p>
+      <button class="btn btn-soft" type="button" data-film-open><svg aria-hidden="true"><use href="#i-play"/></svg> Watch the 70-second film</button>
+    </div>
+    <div class="tour" data-tour>
+      <div class="tour-stage" aria-hidden="true">
+        <div class="device">
+          <div class="device-bar"><span></span><span></span><span></span><b data-tour-url>teamup.nimbuslabs.test/chat</b></div>
+          <div class="device-screen" data-tour-screen>
+            <video class="is-active" muted loop playsinline preload="none" data-tour-video="chat" data-name="chat" data-poster="chat"></video>
+            <video muted loop playsinline preload="none" data-tour-video="call" data-name="call" data-poster="call"></video>
+            <video muted loop playsinline preload="none" data-tour-video="notes" data-name="notes" data-poster="notes"></video>
+            <video muted loop playsinline preload="none" data-tour-video="tasks" data-name="tasks" data-poster="tasks"></video>
+            <video muted loop playsinline preload="none" data-tour-video="standup" data-name="standup" data-poster="standup"></video>
+            <video muted loop playsinline preload="none" data-tour-video="calendar" data-name="calendar" data-poster="calendar"></video>
+            <video muted loop playsinline preload="none" data-tour-video="search" data-name="search" data-poster="search"></video>
+            <video muted loop playsinline preload="none" data-tour-video="system" data-name="system" data-poster="system"></video>
+          </div>
+        </div>
+        <div class="tour-phone" data-tour-phone>
+          <video muted loop playsinline preload="none" data-name="phone" data-lazy-video data-poster="phone"></video>
+        </div>
+      </div>
+      <ol class="tour-steps">
+        <li class="tour-step is-active" data-step="chat" data-url="teamup.nimbuslabs.test/chat">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-chat"/></svg></span>
+          <h3>Chat that keeps the thread</h3>
+          <p>Channels, direct messages, threads, reactions and read receipts. @mentions notify the person, voice and video messages record on the spot, and PDFs open right in the conversation.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="chat-sm" data-poster="chat-sm"></video><figcaption class="sr-only">Sending a message in the product-launch channel</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="call" data-url="teamup.nimbuslabs.test/calls">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-video"/></svg></span>
+          <h3>One tap, the channel is on a call</h3>
+          <p>Voice and video calls from any conversation, for many people at once, with screen sharing and a screen to check your camera and microphone before you join.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="call-sm" data-poster="call-sm"></video><figcaption class="sr-only">Three people joining a call</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="notes" data-url="teamup.nimbuslabs.test/meeting-notes">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-notes"/></svg></span>
+          <h3>Minutes write themselves</h3>
+          <p>A visible note-taker joins while an administrator has it on. After the call, everybody who was there gets the summary, the decisions and each action item with its owner.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="notes-sm" data-poster="notes-sm"></video><figcaption class="sr-only">Opening the minutes of the launch sync</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="tasks" data-url="teamup.nimbuslabs.test/tasks">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-tasks"/></svg></span>
+          <h3>One board the whole team can see</h3>
+          <p>Tasks with assignees, labels, comments, watchers and due dates you can change or remove. Blocked tasks say what they are waiting for.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="tasks-sm" data-poster="tasks-sm"></video><figcaption class="sr-only">Moving a task on the board</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="standup" data-url="teamup.nimbuslabs.test/calls">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-users"/></svg></span>
+          <h3>Stand-ups for just your team</h3>
+          <p>Standing meetings for chosen teams or people, on the days and time you pick. Attendance comes from the call itself.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="standup-sm" data-poster="standup-sm"></video><figcaption class="sr-only">Creating a backend stand-up for one team</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="calendar" data-url="teamup.nimbuslabs.test/calendar">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <h3>Meetings and focus time, one calendar</h3>
+          <p>Month, week and day views, open slots and availability across people, Google Calendar sync, and calls shown for the time you were really in them.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="calendar-sm" data-poster="calendar-sm"></video><figcaption class="sr-only">Moving between weeks on the calendar</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="search" data-url="teamup.nimbuslabs.test/chat?q=pricing" data-phone>
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-search"/></svg></span>
+          <h3>Find anything, on any screen</h3>
+          <p>Full-text and fuzzy search that only shows what you are allowed to see. On a phone, TeamUp installs to the home screen and every screen fits.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="search-sm" data-poster="search-sm"></video><figcaption class="sr-only">Searching for the word pricing</figcaption></figure>
+        </li>
+        <li class="tour-step" data-step="system" data-url="teamup.nimbuslabs.test/organization/system">
+          <span class="step-icon"><svg aria-hidden="true"><use href="#i-gauge"/></svg></span>
+          <h3>See how hard your server works</h3>
+          <p>Processors, memory, disk, people in calls and the last backup, on one page for administrators, with a public status page for everybody else.</p>
+          <figure class="step-media"><video muted loop playsinline preload="none" data-lazy-video data-name="system-sm" data-poster="system-sm"></video><figcaption class="sr-only">The system page with server health</figcaption></figure>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- TRY CHAT -->
+<section class="section" id="try" aria-labelledby="try-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Try it here</p>
+      <h2 id="try-title">Mention a teammate. Send it.</h2>
+      <p class="lede">This little chat runs in your browser. Type <kbd>@</kbd> to bring up people, pick one, and press Enter.</p>
+    </div>
+    <div class="app-frame chat-demo reveal" data-chat-demo>
+      <aside class="chat-side" aria-label="Conversations">
+        <p class="side-label">Channels</p>
+        <div class="side-item is-active" aria-current="page"><span>#</span>product-launch</div>
+        <div class="side-item"><span>#</span>general<i aria-label="1 unread">1</i></div>
+        <p class="side-label">Direct messages</p>
+        <div class="side-item"><span class="av av-xs av-ng" aria-hidden="true">NG</span>Neha Gupta<i aria-label="1 unread">1</i></div>
+      </aside>
+      <div class="chat-main">
+        <div class="chat-head">
+          <div><b># product-launch</b><span>8 members</span></div>
+          <button type="button" class="icon-btn icon-btn-sm" data-chat-call aria-label="Start a call in product-launch"><svg aria-hidden="true"><use href="#i-phone-call"/></svg></button>
+        </div>
+        <div class="chat-log" data-chat-log role="log" aria-live="polite" aria-label="Messages in product-launch" tabindex="0">
+          <div class="msg"><span class="av av-am">AM</span><div><p class="msg-meta"><b>Arjun Mehta</b> 09:12</p><p class="bubble">Engineering is on track. Payments API is in review and the load test passed.</p></div></div>
+          <div class="msg"><span class="av av-vs">VS</span><div><p class="msg-meta"><b>Vikram Singh</b> 09:14</p><p class="bubble">Sales deck is ready. <span class="mention">@Ananya Rao</span> can you add the pricing slide?</p></div></div>
+          <div class="msg"><span class="av av-ar">AR</span><div><p class="msg-meta"><b>Ananya Rao</b> 09:15</p><p class="bubble">On it. I will share it here by 4 pm.</p><span class="reactions"><button type="button" class="reaction" data-react aria-pressed="false">👍 <b>2</b></button></span></div></div>
+        </div>
+        <form class="composer" data-chat-form autocomplete="off">
+          <div class="composer-field">
+            <label for="chat-input" class="sr-only">Message #product-launch</label>
+            <input id="chat-input" type="text" placeholder="Message, try typing @" maxlength="240" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="mention-list" data-chat-input>
+            <ul class="mention-list" id="mention-list" role="listbox" aria-label="People" hidden data-mention-list></ul>
+          </div>
+          <button class="btn btn-primary btn-icon" type="submit" aria-label="Send"><svg aria-hidden="true"><use href="#i-send"/></svg></button>
+        </form>
+      </div>
+    </div>
+    <p class="demo-note">A simulation in this page. Nothing you type leaves your browser.</p>
+  </div>
+</section>
+
+<!-- CALLS -->
+<section class="section section-alt" id="calls" aria-labelledby="calls-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Calls deep-dive</p>
+      <h2 id="calls-title">Calls that keep talking, even on bad Wi-Fi.</h2>
+      <p class="lede">Multi-party video on LiveKit, built for real offices and real networks. Press the buttons under the call to see what TeamUp does.</p>
+    </div>
+    <div class="call-demo reveal" data-call-demo>
+      <div class="call-banner" data-call-banner hidden><svg aria-hidden="true"><use href="#i-wifi-low"/></svg><span data-call-banner-text>Video paused: your connection is weak</span></div>
+      <div class="call-grid" data-call-grid>
+        <div class="tile is-you" data-tile="you">
+          <div class="tile-cam"><span class="tile-bg"></span><span class="person"></span></div>
+          <span class="tile-initials">PS</span>
+          <span class="tile-nameplate" data-nameplate hidden><b>Priya Sharma</b><span>Product lead · Nimbus Labs</span></span>
+          <span class="tile-badge" data-badge hidden></span>
+          <span class="tile-hand" data-hand hidden><svg aria-hidden="true"><use href="#i-hand"/></svg> 1</span>
+          <span class="tile-name"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>Priya Sharma (you)</span>
+          <span class="tile-signal" data-signal aria-hidden="true"><svg><use href="#i-wifi"/></svg></span>
+        </div>
+        <div class="tile" data-tile="am">
+          <div class="tile-cam"><span class="tile-bg"></span><span class="person p2"></span></div>
+          <span class="tile-initials">AM</span>
+          <span class="tile-name"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>Arjun Mehta</span>
+        </div>
+        <div class="tile" data-tile="ng">
+          <div class="tile-cam"><span class="tile-bg"></span><span class="person p3"></span></div>
+          <span class="tile-initials">NG</span>
+          <span class="tile-name"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>Neha Gupta</span>
+        </div>
+        <div class="tile" data-tile="rd">
+          <div class="tile-cam"><span class="tile-bg"></span><span class="person p4"></span></div>
+          <span class="tile-initials">RD</span>
+          <span class="tile-name"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>Rohan Das</span>
+        </div>
+        <div class="tile tile-phone" data-tile="phone" hidden>
+          <div class="tile-cam"><span class="tile-bg"></span><span class="person p5"></span></div>
+          <span class="tile-initials">PS</span>
+          <span class="tile-name"><svg class="tile-name-icon" aria-hidden="true"><use href="#i-phone"/></svg>Priya (phone)</span>
+        </div>
+      </div>
+      <div class="call-controls" role="group" aria-label="Call controls">
+        <button type="button" class="ctrl" data-ctrl="weak" aria-pressed="false"><svg aria-hidden="true"><use href="#i-wifi-low"/></svg><span>Weak connection</span></button>
+        <button type="button" class="ctrl" data-ctrl="hand" aria-pressed="false"><svg aria-hidden="true"><use href="#i-hand"/></svg><span>Raise hand</span></button>
+        <button type="button" class="ctrl" data-ctrl="bg" aria-pressed="false"><svg aria-hidden="true"><use href="#i-image"/></svg><span data-bg-label>Background: none</span></button>
+        <button type="button" class="ctrl" data-ctrl="audio" aria-pressed="false"><svg aria-hidden="true"><use href="#i-headphones"/></svg><span>Audio only</span></button>
+        <button type="button" class="ctrl" data-ctrl="phone" aria-pressed="false"><svg aria-hidden="true"><use href="#i-phone"/></svg><span>Join from phone too</span></button>
+      </div>
+      <p class="call-status" data-call-status role="status" aria-live="polite">Everyone is on camera. Press a button below the call.</p>
+    </div>
+    <ul class="feature-grid reveal">
+      <li><svg aria-hidden="true"><use href="#i-wifi-low"/></svg><h3>Voice first on weak Wi-Fi</h3><p>The camera pauses, others see “Camera paused: weak connection”, and voices stay clear. Video comes back by itself.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-refresh"/></svg><h3>Survives a refresh</h3><p>Reload the page in a call and you are still in it.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-phone"/></svg><h3>Laptop and phone at once</h3><p>Add a second angle from your phone. Everybody still counts you once.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-image"/></svg><h3>Backgrounds with your name</h3><p>Blur, your organization's own pictures, or company backgrounds that carry each person's name.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-hand"/></svg><h3>Raise hand, speaking light</h3><p>Hands queue in order, the microphone moves while someone speaks, and noise cancellation cleans it up.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-door"/></svg><h3>Guests by link</h3><p>People outside the company join with their name and a passcode. The organizer can remove them.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-screen"/></svg><h3>Screen share and pre-join</h3><p>Share a screen without the endless mirror, and check camera and microphone before every call.</p></li>
+      <li><svg aria-hidden="true"><use href="#i-video"/></svg><h3>Recording</h3><p>Recording goes to your own object storage. In production it needs LiveKit Egress added.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- MEETING NOTES -->
+<section class="section" id="notes" aria-labelledby="notes-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Meeting notes</p>
+      <h2 id="notes-title">End the call. The minutes are already written.</h2>
+      <p class="lede">A note-taker everyone can see listens in, then writes the summary, decisions and action items with owners. Use Claude, OpenAI, NVIDIA or your own model.</p>
+    </div>
+    <div class="notes-demo reveal" data-notes-demo>
+      <div class="notes-call">
+        <div class="notes-call-head">
+          <b>Launch sync</b>
+          <span class="live-dot">In call</span>
+        </div>
+        <p class="taker"><span class="taker-icon"><svg aria-hidden="true"><use href="#i-notes"/></svg></span><span><b>Note-taker is on.</b> Everyone in the call sees it.</span></p>
+        <ul class="transcript" aria-label="What was said">
+          <li><b>Priya</b> Launch is two weeks out. Where are we?</li>
+          <li><b>Arjun</b> Payments API is in review, load test passed at 500.</li>
+          <li><b>Vikram</b> Deck is ready apart from pricing.</li>
+          <li><b>Ananya</b> I will add the pricing slide today.</li>
+          <li><b>Priya</b> Then feature freeze on the 21st. Agreed?</li>
+        </ul>
+        <fieldset class="model-pick">
+          <legend>Minutes written by</legend>
+          <label><input type="radio" name="model" value="Claude" checked><span>Claude</span></label>
+          <label><input type="radio" name="model" value="OpenAI"><span>OpenAI</span></label>
+          <label><input type="radio" name="model" value="NVIDIA"><span>NVIDIA</span></label>
+          <label><input type="radio" name="model" value="your own model"><span>Your own</span></label>
+        </fieldset>
+        <button type="button" class="btn btn-danger" data-notes-end><svg aria-hidden="true"><use href="#i-phone-call"/></svg> End the call</button>
+      </div>
+      <article class="minutes" data-minutes aria-live="polite" aria-busy="false">
+        <div class="minutes-empty" data-minutes-empty>
+          <svg aria-hidden="true"><use href="#i-sparkles"/></svg>
+          <p>Minutes appear here when the call ends.</p>
+        </div>
+        <div class="minutes-body" data-minutes-body hidden>
+          <p class="minutes-kicker">Meeting notes · <span data-minutes-model>Claude</span></p>
+          <h3>Launch sync</h3>
+          <p class="minutes-meta">5 people · sent to everybody who was there</p>
+          <h4>Summary</h4>
+          <p data-type>The team checked readiness for the launch. The payments API is in review and the load test passed at 500 users. The sales deck is ready apart from pricing.</p>
+          <h4>Decisions</h4>
+          <ul data-type><li>Feature freeze on the 21st.</li><li>Pricing stays the same for existing customers.</li></ul>
+          <h4>Action items</h4>
+          <ul class="actions" data-type>
+            <li><span class="av av-xs av-ar">AR</span><span>Add the pricing slide to the sales deck</span><em>today, 4 pm</em></li>
+            <li><span class="av av-xs av-ng">NG</span><span>Merge the payments API after review</span><em>Wednesday</em></li>
+            <li><span class="av av-xs av-rd">RD</span><span>Collect landing page feedback</span><em>Thursday</em></li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <p class="demo-note">A simulation. In TeamUp, speech to text runs on Sarvam and the minutes on the model your administrator picks.</p>
+  </div>
+</section>
+
+<!-- SCRUM -->
+<section class="section section-alt" id="scrum" aria-labelledby="scrum-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Scrum and stand-ups</p>
+      <h2 id="scrum-title">The scrum, as the team sheet you already keep.</h2>
+      <p class="lede">One row per person, their lead, then Task 1, Task 2 and on, what they finished, and what each blocked task is blocked on. Drag people into your own order. Mark a task blocked and say why.</p>
+    </div>
+    <div class="scrum-demo reveal" data-scrum-demo>
+      <div class="scrum-toolbar">
+        <span class="scrum-team"><svg aria-hidden="true"><use href="#i-users"/></svg> Engineering · Today</span>
+        <button type="button" class="btn btn-ghost btn-sm" data-scrum-reset>Reset</button>
+      </div>
+      <div class="table-scroll" tabindex="0" role="region" aria-label="Scrum table, scrolls sideways">
+        <table class="scrum">
+          <caption class="sr-only">Scrum for the Engineering team. Use the handle buttons to reorder people: Space to pick up, arrow keys to move, Space to drop. Use a task's button to mark it done or blocked.</caption>
+          <thead><tr><th scope="col"><span class="sr-only">Order</span></th><th scope="col">Person</th><th scope="col">My lead</th><th scope="col">Task 1</th><th scope="col">Task 2</th><th scope="col">Task 3</th><th scope="col">Done</th><th scope="col">Blocked on</th></tr></thead>
+          <tbody data-scrum-body></tbody>
+        </table>
+      </div>
+      <p class="sr-only" aria-live="assertive" data-scrum-live></p>
+    </div>
+    <div class="menu-pop" data-task-menu hidden role="dialog" aria-label="Task actions">
+      <p class="menu-title" data-task-menu-title></p>
+      <div class="menu-actions" data-task-menu-actions>
+        <button type="button" class="btn btn-soft btn-sm" data-task-act="done"><svg aria-hidden="true"><use href="#i-check"/></svg> Mark done</button>
+        <button type="button" class="btn btn-soft btn-sm danger" data-task-act="block"><svg aria-hidden="true"><use href="#i-blocked"/></svg> Mark blocked</button>
+      </div>
+      <form class="block-form" data-block-form hidden>
+        <label for="block-reason">What is it blocked on?</label>
+        <input id="block-reason" type="text" maxlength="60" placeholder="e.g. waiting for the API keys" required>
+        <div class="block-form-row"><button type="button" class="btn btn-ghost btn-sm" data-task-cancel>Cancel</button><button type="submit" class="btn btn-primary btn-sm">Save</button></div>
+      </form>
+    </div>
+
+    <div class="standup-grid">
+      <div class="standup-card reveal">
+        <div class="standup-head">
+          <div><h3>Engineering stand-up</h3><p>Mon to Fri at 09:30, 15 min · for Engineering</p></div>
+          <span class="chip chip-ok">Live</span>
+        </div>
+        <ul class="attendance" data-attendance aria-label="Today's attendance">
+          <li><span class="av av-xs av-ps">PS</span>Priya Sharma<span class="att att-in">Joined 09:29</span></li>
+          <li><span class="av av-xs av-am">AM</span>Arjun Mehta<span class="att att-in">Joined 09:30</span></li>
+          <li><span class="av av-xs av-ng">NG</span>Neha Gupta<span class="att att-late">Late, 09:36</span></li>
+          <li><span class="av av-xs av-rd">RD</span>Rohan Das<span class="att att-hol">Holiday</span></li>
+          <li data-kavya><span class="av av-xs av-ki">KI</span>Kavya Iyer<span class="att att-out" data-kavya-state>Not joined</span></li>
+        </ul>
+        <button type="button" class="btn btn-soft btn-sm" data-leave-toggle aria-pressed="false">Record Kavya's leave for today</button>
+        <p class="small muted">Attendance is taken from the call itself. Leave can be written by the person, their manager or an administrator.</p>
+      </div>
+      <div class="day-card reveal" data-day-demo>
+        <div class="standup-head">
+          <div><h3>Your calendar shows when you were really there</h3><p>Leave the stand-up, then look into its room again. Back within ten minutes counts as one block.</p></div>
+        </div>
+        <div class="day-wrap">
+          <div class="day-hours" aria-hidden="true"><span>09:00</span><span>10:00</span><span>11:00</span><span>12:00</span></div>
+          <div class="day-col" data-day-col aria-hidden="true">
+            <span class="day-now" data-day-now></span>
+          </div>
+        </div>
+        <div class="day-controls">
+          <button type="button" class="btn btn-primary btn-sm" data-day-play><svg aria-hidden="true"><use href="#i-play"/></svg> <span>Play the morning</span></button>
+          <button type="button" class="btn btn-soft btn-sm" data-day-toggle disabled>Leave the call</button>
+          <span class="day-clock" data-day-clock aria-live="off">09:00</span>
+        </div>
+        <p class="small" data-day-result role="status" aria-live="polite">Press play. You join the stand-up at 09:30.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OWNERSHIP -->
+<section class="section" id="own" aria-labelledby="own-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Security and self-hosting</p>
+      <h2 id="own-title">Your server. Your data. You can see where it goes.</h2>
+      <p class="lede">TeamUp is one binary next to Postgres, Redis, S3 storage and LiveKit, all on a machine you run. Press a button to follow the data.</p>
+    </div>
+    <div class="flow-demo reveal" data-flow-demo>
+      <div class="flow-buttons" role="group" aria-label="Follow the data">
+        <button type="button" class="btn btn-soft btn-sm" data-flow="message" aria-pressed="true"><svg aria-hidden="true"><use href="#i-chat"/></svg> Send a message</button>
+        <button type="button" class="btn btn-soft btn-sm" data-flow="file" aria-pressed="false"><svg aria-hidden="true"><use href="#i-notes"/></svg> Share a file</button>
+        <button type="button" class="btn btn-soft btn-sm" data-flow="call" aria-pressed="false"><svg aria-hidden="true"><use href="#i-video"/></svg> Start a call</button>
+        <button type="button" class="btn btn-soft btn-sm" data-flow="minutes" aria-pressed="false"><svg aria-hidden="true"><use href="#i-sparkles"/></svg> Write minutes</button>
+      </div>
+      <div class="flow-canvas">
+        <div class="flow-scroll" tabindex="0" role="region" aria-label="Data flow diagram, scrolls sideways">
+        <svg class="flow-svg" viewBox="0 0 900 440" role="img" aria-labelledby="flow-svg-title flow-svg-desc" data-flow-svg>
+          <title id="flow-svg-title">How data moves through a TeamUp server</title>
+          <desc id="flow-svg-desc">Browsers and phones talk to the TeamUp binary on your server. It stores data in Postgres, Redis and S3 storage on the same server. Calls go to LiveKit on the same server. Only the optional meeting note-taker sends audio and text to outside services you choose.</desc>
+          <defs>
+            <linearGradient id="fg" x1="0" x2="1"><stop offset="0" stop-color="#6366f1"/><stop offset="1" stop-color="#4338ca"/></linearGradient>
+          </defs>
+          <rect class="fz-zone" x="230" y="20" width="460" height="400" rx="22"/>
+          <text class="fz-label" x="252" y="52">YOUR SERVER</text>
+          <g class="fz-lock" transform="translate(648 32)"><rect x="0" y="9" width="18" height="13" rx="3"/><path d="M4 9V6a5 5 0 0 1 10 0v3"/></g>
+
+          <g class="fn fn-people" data-node="team"><rect x="20" y="110" width="160" height="70" rx="14"/><text x="100" y="140">Your team</text><text class="sub" x="100" y="162">browsers and phones</text></g>
+          <g class="fn fn-people" data-node="mates"><rect x="20" y="270" width="160" height="70" rx="14"/><text x="100" y="300">Teammates</text><text class="sub" x="100" y="322">get it live</text></g>
+
+          <g class="fn fn-core" data-node="core"><rect x="300" y="160" width="170" height="90" rx="16"/><text x="385" y="198">teamup</text><text class="sub" x="385" y="222">one Go binary</text></g>
+          <g class="fn" data-node="pg"><rect x="530" y="80" width="130" height="54" rx="12"/><text x="595" y="112">Postgres</text></g>
+          <g class="fn" data-node="redis"><rect x="530" y="150" width="130" height="54" rx="12"/><text x="595" y="182">Redis</text></g>
+          <g class="fn" data-node="s3"><rect x="530" y="220" width="130" height="54" rx="12"/><text x="595" y="252">S3 storage</text></g>
+          <g class="fn" data-node="lk"><rect x="300" y="330" width="170" height="60" rx="14"/><text x="385" y="366">LiveKit</text></g>
+
+          <g class="fn fn-out" data-node="ext"><rect x="730" y="300" width="155" height="90" rx="14"/><text x="807" y="330">Note-taker</text><text class="sub" x="807" y="352">speech to text,</text><text class="sub" x="807" y="370">minutes model</text></g>
+
+          <path id="p-in" class="fp" d="M180 145 C 240 145, 250 190, 300 195"/>
+          <path id="p-db" class="fp" d="M470 190 C 500 190, 500 107, 530 107"/>
+          <path id="p-redis" class="fp" d="M470 200 C 500 200, 500 177, 530 177"/>
+          <path id="p-out" class="fp" d="M300 220 C 240 230, 240 300, 180 305"/>
+          <path id="p-s3" class="fp" d="M180 155 C 360 120, 420 280, 530 247"/>
+          <path id="p-s3b" class="fp" d="M530 255 C 420 300, 330 300, 180 310"/>
+          <path id="p-sign" class="fp" d="M300 205 C 250 205, 230 165, 180 160"/>
+          <path id="p-lk" class="fp" d="M180 170 C 250 200, 260 340, 300 355"/>
+          <path id="p-lk2" class="fp" d="M300 365 C 250 365, 230 330, 180 320"/>
+          <path id="p-ext" class="fp fp-ext" d="M470 360 C 600 360, 640 345, 730 345"/>
+          <g data-flow-dots></g>
+        </svg>
+        </div>
+        <p class="flow-hint" aria-hidden="true">Swipe sideways to see the whole server.</p>
+        <p class="flow-caption" data-flow-caption role="status" aria-live="polite">A message goes from your browser to TeamUp, is saved in Postgres, and Redis hands it to every teammate's open connection. It never leaves your server.</p>
+      </div>
+    </div>
+
+    <div class="own-grid">
+      <ul class="check-list reveal" aria-label="Security and operations">
+        <li><svg aria-hidden="true"><use href="#i-lock"/></svg><div><b>Sign-in you control.</b> Password login with signed tokens, refresh rotation that catches reused tokens, and a list of sessions you can revoke.</div></li>
+        <li><svg aria-hidden="true"><use href="#i-shield"/></svg><div><b>Custom roles and permissions.</b> Fine-grained rules, checked on the server and the client. Search only shows what you may see.</div></li>
+        <li><svg aria-hidden="true"><use href="#i-server"/></svg><div><b>Files never pass through the app.</b> Browsers upload and download straight to your S3 storage with signed links, including resumable uploads for big files.</div></li>
+        <li><svg aria-hidden="true"><use href="#i-gauge"/></svg><div><b>Run it like grown-up software.</b> Structured logs, Prometheus metrics, an honest readiness check, a public status page, and nightly backups set up by the server script.</div></li>
+        <li><svg aria-hidden="true"><use href="#i-link"/></svg><div><b>Outside services only when you switch them on.</b> Your mail server, Google Calendar sync, and the note-taker's speech to text and minutes model. Turn the note-taker off and call audio stays home.</div></li>
+      </ul>
+
+      <div class="roi reveal" data-roi>
+        <h3>What would seats cost you?</h3>
+        <p class="small muted">An estimate with example prices. Change them to what you pay.</p>
+        <div class="roi-field">
+          <label for="roi-people">People <output for="roi-people" data-roi-people-out>50</output></label>
+          <input id="roi-people" type="range" min="5" max="1000" step="5" value="50" data-roi-people>
+        </div>
+        <div class="roi-row">
+          <div class="roi-field">
+            <label for="roi-seat">Hosted tools, per person per month</label>
+            <div class="money"><select aria-label="Currency" data-roi-cur><option value="$">$</option><option value="€">€</option><option value="£">£</option><option value="₹">₹</option></select><input id="roi-seat" type="number" inputmode="decimal" min="0" step="0.5" value="15" data-roi-seat></div>
+          </div>
+          <div class="roi-field">
+            <label for="roi-server">Your server, per month</label>
+            <div class="money"><span data-roi-cur-label>$</span><input id="roi-server" type="number" inputmode="decimal" min="0" step="5" value="60" data-roi-server></div>
+          </div>
+        </div>
+        <div class="roi-bars" aria-hidden="true">
+          <div class="roi-bar"><span>Seats</span><i data-roi-bar-seat></i></div>
+          <div class="roi-bar is-us"><span>TeamUp</span><i data-roi-bar-us></i></div>
+        </div>
+        <p class="roi-result" role="status" aria-live="polite" data-roi-result></p>
+        <p class="tiny muted">Not a quote. A server also takes some of someone's time to run, big video meetings use bandwidth, and hosted AI minutes are billed by their provider.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPEN SOURCE -->
+<section class="section section-alt" id="open-source" aria-labelledby="oss-title">
+  <div class="container oss">
+    <div class="oss-copy reveal">
+      <p class="eyebrow">Open source and v1.0.0</p>
+      <h2 id="oss-title">MIT licensed. Read every line. Run it tonight.</h2>
+      <p class="lede">TeamUp v1.0.0 is on GitHub with a Docker image, binaries for Linux on amd64 and arm64, and a Helm chart. Contributions are welcome from anyone, with no CLA.</p>
+      <ul class="install-list">
+        <li><b>One VM with Docker Compose.</b> The recommended path, with a copy-paste guide and <code>make deploy</code> for every update.</li>
+        <li><b>Docker image.</b> <code>ghcr.io/himanshu-kr-jha/teamup.sh:1.0.0</code></li>
+        <li><b>Binary.</b> One file and a systemd unit is a real option.</li>
+        <li><b>Kubernetes.</b> A Helm chart, still beta: it renders and validates, but has not been installed on a live cluster yet.</li>
+      </ul>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://github.com/himanshu-kr-jha/teamup.sh/releases/tag/v1.0.0" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Get v1.0.0</a>
+        <a class="btn btn-ghost" href="#demo" data-demo>Book a demo</a>
+      </div>
+    </div>
+    <div class="oss-side reveal">
+      <div class="terminal">
+        <div class="terminal-bar"><span></span><span></span><span></span><b>Try it on a laptop</b>
+          <button type="button" class="copy-btn" data-copy="git clone https://github.com/himanshu-kr-jha/teamup.sh.git&#10;cd teamup.sh&#10;./setup.sh &amp;&amp; ./start.sh"><svg aria-hidden="true"><use href="#i-copy"/></svg><span>Copy</span></button>
+        </div>
+<pre><code><span class="t-c">$</span> git clone https://github.com/himanshu-kr-jha/teamup.sh.git
+<span class="t-c">$</span> cd teamup.sh
+<span class="t-c">$</span> ./setup.sh &amp;&amp; ./start.sh
+<span class="t-ok">▸ Checking prerequisites</span>
+<span class="t-ok">▸ Checking ports</span>
+<span class="t-ok">▸ Starting postgres · redis · minio · livekit</span>
+<span class="t-ok">▸ Building TeamUp</span>
+<span class="t-hl">Open http://localhost:8080 to run the setup wizard</span></code></pre>
+      </div>
+      <div class="gaps">
+        <h3>Good to know, before you choose</h3>
+        <ul>
+          <li>Password sign-in is the supported way in. Google and Microsoft sign-in are not finished.</li>
+          <li>Recording needs LiveKit Egress added to the production stack. Calls work without it.</li>
+          <li>Keep <code>/metrics</code> behind the shipped nginx config, as it has no sign-in.</li>
+          <li>Not built yet: federation, end-to-end encryption, retention policies.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERFORMANCE -->
+<section class="section" id="performance" aria-labelledby="perf-title">
+  <div class="container">
+    <div class="perf reveal">
+      <div class="perf-copy">
+        <p class="eyebrow">Performance</p>
+        <h2 id="perf-title">We broke it on purpose, so you know where the edge is.</h2>
+        <p class="lede">A load test ran the production stack on one server with 2 processors. Each simulated person acts every 3 seconds, about five times busier than a person at work.</p>
+        <a class="text-link" href="https://github.com/himanshu-kr-jha/teamup.sh/blob/main/tools/loadtest/README.md" rel="noopener">How the load test works <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+      <div class="perf-card">
+        <p class="perf-big"><span>~500</span> busy people</p>
+        <p class="muted">on one 2-CPU server, with half of all requests answered within 70 ms</p>
+        <table class="perf-table">
+          <caption class="sr-only">Load test results on one 2-CPU server</caption>
+          <thead><tr><th scope="col">Office load</th><th scope="col">Real server</th></tr></thead>
+          <tbody>
+            <tr><td>250 busy people, 110 requests a second</td><td><span class="chip chip-ok">fine</span></td></tr>
+            <tr><td>500 busy people, 220 requests a second</td><td><span class="chip chip-warn">70 ms typical, CPU used up</span></td></tr>
+            <tr><td>More than that</td><td><span class="chip chip-bad">overloaded</span></td></tr>
+          </tbody>
+        </table>
+        <p class="tiny muted">Typical means the median (p50). Bigger teams scale the server up.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section section-alt" id="faq" aria-labelledby="faq-title">
+  <div class="container faq-wrap">
+    <div class="section-head reveal">
+      <p class="eyebrow">FAQ</p>
+      <h2 id="faq-title">Straight answers</h2>
+    </div>
+    <div class="faq reveal">
+      <details>
+        <summary>What does TeamUp cost?</summary>
+        <p>The software is free under the MIT licence. You pay for the server you run it on, and that cost does not grow with every person you add. There is no price per seat.</p>
+      </details>
+      <details>
+        <summary>What do I need to host it?</summary>
+        <p>One Linux VM with Docker Compose is the recommended path. It runs TeamUp with Postgres, Redis, MinIO and LiveKit, and a guide takes you from a fresh Ubuntu server to a running team. In our load test, a server with 2 processors carried about 500 busy people. Files can live in Amazon S3, Cloudflare R2 or Backblaze B2 instead.</p>
+      </details>
+      <details>
+        <summary>Where does our data live? Does anything leave the server?</summary>
+        <p>Messages, tasks, the calendar and files stay in your Postgres and your S3 storage, and call media goes through LiveKit on your server. Things leave only when you switch them on: your mail server for email, Google Calendar sync, and the meeting note-taker, which sends call audio to Sarvam for speech to text and the transcript to the minutes model you pick, or to your own model.</p>
+      </details>
+      <details>
+        <summary>Does it work on phones?</summary>
+        <p>Yes. Every screen fits phones and tablets, and TeamUp installs to an Android or iPhone home screen. There is also an Android app that opens the same web app of your server, with iPhone to follow.</p>
+      </details>
+      <details>
+        <summary>What is not there yet?</summary>
+        <p>Google and Microsoft sign-in are not finished, so password sign-in is the way in. Recording needs LiveKit Egress added in production. Federation, end-to-end encryption, native mobile apps and retention policies are not built. The README keeps this list honest.</p>
+      </details>
+      <details>
+        <summary>Is it ready for a real team?</summary>
+        <p>v1.0.0 is released, and Cognecto runs its working day on it: stand-ups every morning, dozens of people in calls, and the tasks and scrum that come out of them.</p>
+      </details>
+      <details>
+        <summary>Can people outside the company join a call?</summary>
+        <p>Yes. Guests join a meeting by its link with their name and a passcode, and the organizer can remove them.</p>
+      </details>
+      <details>
+        <summary>What happens in a demo?</summary>
+        <p>We show TeamUp running a team's day, answer your questions about hosting it, and look at whether it fits how your team works.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta" aria-labelledby="final-title">
+  <div class="container final-inner reveal">
+    <span class="brand-mark brand-mark-lg" aria-hidden="true"><svg><use href="#i-logo"/></svg></span>
+    <h2 id="final-title">Your team. Your server. Your data.</h2>
+    <p class="lede">See TeamUp run a working day, or put it on your own server tonight.</p>
+    <div class="cta-row cta-center">
+      <a class="btn btn-primary btn-lg" href="#demo" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-ghost btn-lg" href="https://github.com/himanshu-kr-jha/teamup.sh" rel="noopener"><svg aria-hidden="true"><use href="#i-github"/></svg> Self-host free on GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><svg><use href="#i-logo"/></svg></span><span class="brand-name">TeamUp</span></a>
+      <p class="small muted">Chat, calls, tasks and files on your own server. Open source under the MIT licence.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <div><h2>Product</h2><a href="#tour">Tour</a><a href="#calls">Calls</a><a href="#notes">Meeting notes</a><a href="#scrum">Scrum</a></div>
+      <div><h2>Company</h2><a href="customers.html">Customers</a><a href="#demo" data-demo>Book a demo</a><a href="#faq">FAQ</a></div>
+      <div><h2>Open source</h2><a href="https://github.com/himanshu-kr-jha/teamup.sh" rel="noopener">GitHub</a><a href="https://github.com/himanshu-kr-jha/teamup.sh/releases/tag/v1.0.0" rel="noopener">Release v1.0.0</a><a href="https://github.com/himanshu-kr-jha/teamup.sh/blob/main/docs/DEPLOYMENT.md" rel="noopener">Deployment guide</a><a href="https://github.com/himanshu-kr-jha/teamup.sh/blob/main/docs/ARCHITECTURE.md" rel="noopener">Architecture</a></div>
+    </nav>
+  </div>
+  <div class="container footer-base">
+    <p class="tiny muted">This site has no trackers, analytics or cookies. Screens show the made-up company Nimbus Labs.</p>
+  </div>
+</footer>
+
+<div class="mobile-cta" data-mobile-cta>
+  <a class="btn btn-primary" href="#demo" data-demo>Book a demo</a>
+  <a class="btn btn-ghost" href="https://github.com/himanshu-kr-jha/teamup.sh" rel="noopener" aria-label="Self-host free on GitHub"><svg aria-hidden="true"><use href="#i-github"/></svg> Self-host</a>
+</div>
+
+<dialog class="modal" id="demo" aria-labelledby="demo-title" data-demo-dialog>
+  <form class="demo-form" method="dialog" data-demo-form novalidate>
+    <div class="modal-head">
+      <h2 id="demo-title">Book a demo</h2>
+      <button class="icon-btn" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <p class="small muted">Tell us about your team and we will set up a time to show you TeamUp.</p>
+    <div class="form-grid">
+      <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
+      <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" autocomplete="organization" required></div>
+      <div class="field"><label for="f-size">Team size</label>
+        <select id="f-size" name="size" required><option value="">Choose</option><option>1 to 10</option><option>11 to 50</option><option>51 to 200</option><option>201 to 500</option><option>More than 500</option></select>
+      </div>
+      <div class="field field-wide"><label for="f-msg">What should we cover? <span class="muted">(optional)</span></label><textarea id="f-msg" name="message" rows="3"></textarea></div>
+    </div>
+    <p class="form-error" data-form-error role="alert" hidden></p>
+    <div class="form-done" data-form-done hidden role="status"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" type="submit" data-form-submit>Request a demo</button>
+    </div>
+    <p class="tiny muted">We only use this to reply to you. No newsletters.</p>
+  </form>
+</dialog>
+
+<dialog class="modal modal-film" aria-label="TeamUp launch film" data-film-dialog>
+  <div class="modal-head">
+    <h2>TeamUp in 70 seconds</h2>
+    <button class="icon-btn" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+  </div>
+  <video controls playsinline preload="none" poster="assets/img/posters/film.webp" data-film>
+    <track kind="captions" src="assets/video/film.en.vtt" srclang="en" label="English" default>
+  </video>
+</dialog>
+
+</body>
+</html>
