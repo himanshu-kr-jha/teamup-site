@@ -68,6 +68,7 @@ async function overflow(page) {
         if (SHOT_WIDTHS.includes(width)) {
           const name = p.replace('.html', '');
           await page.waitForTimeout(1500); // the hero's videos start after load
+          const flat = await page.addStyleTag({ content: '.site-header{position:relative!important}.type-nav{position:relative!important;top:0!important}.mobile-cta{display:none!important}' });
           const sections = await page.$$('header.site-header, main > section, main > nav, main.notfound, footer');
           let i = 0;
           for (const s of sections) {
@@ -76,12 +77,52 @@ async function overflow(page) {
             await page.waitForTimeout(250);
             await s.screenshot({ path: path.join(OUT, `${name}-${width}-${theme}-${String(i++).padStart(2, '0')}-${id}.png`) });
           }
+          await flat.evaluate((el) => el.remove());
           await page.evaluate(() => window.scrollTo(0, 0));
           await page.waitForTimeout(300);
           await page.screenshot({ path: path.join(OUT, `${name}-${width}-${theme}-viewport.png`) });
         }
         await ctx.close();
       }
+    }
+  }
+
+  // Every in-page link lands with its target's heading fully below the sticky header.
+  for (const p of ['index.html', 'customers.html']) {
+    for (const width of [375, 1440]) {
+      const { ctx, page } = await newPage(browser, width, 'dark');
+      await page.goto(BASE + p, { waitUntil: 'load' });
+      await page.addStyleTag({ content: '.js .reveal{opacity:1!important;transform:none!important}html{scroll-behavior:auto!important}' });
+      // "#x" is on this page; "./#x" is on the home page.
+      const links = await page.evaluate(() => [...new Set([...document.querySelectorAll('a[href^="#"], a[href^="./#"]')]
+        .map((a) => a.getAttribute('href')).filter((h) => !/^(\.\/)?#(demo|main)?$/.test(h)))]);
+      for (const link of links) {
+        const h = link.replace('./', '');
+        // Follow the real link, as a visitor would, from the top of its page.
+        await page.goto(BASE + p, { waitUntil: 'load' });
+        await page.addStyleTag({ content: '.js .reveal{opacity:1!important;transform:none!important}html{scroll-behavior:auto!important}' });
+        await Promise.all([
+          link.startsWith('./') ? page.waitForURL('**/' + h, { waitUntil: 'load' }) : Promise.resolve(),
+          page.evaluate((l) => document.querySelector(`a[href="${l}"]`).click(), link),
+        ]);
+        await page.addStyleTag({ content: '.js .reveal{opacity:1!important;transform:none!important}' });
+        await page.waitForTimeout(400);
+        const r2 = await page.evaluate((hash) => {
+          const t = document.querySelector(hash);
+          if (!t) return { missing: true };
+          const head = t.matches('h1,h2,h3') ? t : t.querySelector('h1, h2, h3') || t;
+          // A sticky bar covers content only while it is stuck at its top offset.
+          const bars = [...document.querySelectorAll('.site-header, .type-nav')].filter((b) => getComputedStyle(b).position === 'sticky'
+            && b.getBoundingClientRect().top <= (parseFloat(getComputedStyle(b).top) || 0) + 1);
+          const cover = Math.max(0, ...bars.map((b) => b.getBoundingClientRect().bottom));
+          return { top: Math.round(head.getBoundingClientRect().top), cover: Math.round(cover), vh: innerHeight };
+        }, h);
+        if (r2.missing) note(`anchor ${link} from ${p} @${width}: no element with that id`);
+        else if (r2.top > r2.vh / 2) note(`anchor ${link} from ${p} @${width}: heading at ${r2.top} did not scroll into view`);
+        else if (r2.top < r2.cover) note(`anchor ${link} from ${p} @${width}: heading top ${r2.top} is under the header (${r2.cover})`);
+        else console.log(`  ok ${link} from ${p} @${width}: heading at ${r2.top}, header ends ${r2.cover}`);
+      }
+      await ctx.close();
     }
   }
 
@@ -139,17 +180,13 @@ async function overflow(page) {
     await page.locator('[data-flow-demo]').screenshot({ path: path.join(OUT, `demo-flow-${tag}.png`) });
 
     await page.locator('[data-roi-people]').fill('200');
+    await page.locator('[data-roi-seat]').fill('600');
     await page.locator('[data-roi]').screenshot({ path: path.join(OUT, `demo-roi-${tag}.png`) });
 
-    await page.locator('.hero [data-demo]').first().scrollIntoViewIfNeeded();
-    await page.locator('.hero [data-demo]').first().click();
-    await page.locator('#f-name').fill('Test Person');
-    await page.locator('#f-email').fill('test@example.com');
-    await page.locator('#f-company').fill('Example Ltd');
-    await page.locator('#f-size').selectOption({ index: 2 });
-    await page.locator('[data-form-submit]').click();
-    await page.waitForTimeout(300);
-    await page.screenshot({ path: path.join(OUT, `demo-form-${tag}.png`) });
+    // Book a demo and Get a quote open the booking page as it is, in a new tab.
+    const links = await page.$$eval('[data-demo]', (as) => as.map((a) => [a.href, a.target, a.rel]));
+    const bad = links.filter(([h, t, r]) => h !== 'https://calendar.app.google/N49RsbFjwGHiVa6d6' || t !== '_blank' || !r.includes('noopener'));
+    if (!links.length || bad.length) note(`booking links @${tag}: ${links.length} found, ${bad.length} wrong`);
     await ctx.close();
   }
 

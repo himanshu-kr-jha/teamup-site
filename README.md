@@ -19,8 +19,8 @@ Before publishing, go through [CONFIRM.md](CONFIRM.md).
 | `index.html` | Home page, with the interactive demos |
 | `customers.html` | Cognecto and the five team types |
 | `404.html` | Not found page, which works at any depth on GitHub Pages |
-| `assets/js/main.js` | `DEMO_URL` for "Book a demo" and "Get a quote", theme, video loading, dialogs |
-| `assets/js/demos.js` | Chat, call, meeting notes, scrum, calendar, data-flow demos and the one-payment cost estimate |
+| `assets/js/main.js` | `DEMO_URL`, the booking page behind "Book a demo" and "Get a quote" (also in the HTML links), theme, video loading |
+| `assets/js/demos.js` | Chat, call, meeting notes, scrum, calendar and data-flow demos, and the per-person cost estimate |
 | `assets/video/` | Product recordings, re-encoded by `tools/encode-videos.sh` |
 | `tools/review.cjs` | Screenshots every section at 375, 768 and 1440 in both themes, checks for sideways scrolling and console errors |
 | `tools/og.cjs` | Renders `tools/og.html` into the social card `assets/img/og.png` |

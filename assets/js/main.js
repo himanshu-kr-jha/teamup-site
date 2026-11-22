@@ -1,11 +1,7 @@
-/* Where "Book a demo" and "Get a quote" send a request (one form, two intents). Leave empty until there is a real one.
-   - 'mailto:someone@example.com' opens the visitor's email app with the form filled in.
-   - 'https://...' (a booking page) opens in a new tab, with name and email added
-     as ?name=&email= (and &intent=quote for a quote) so booking pages such as
-     Cal.com or Calendly can prefill them.
-   While it is empty, the form says it could not send, and on a local preview it
-   says to set this. */
-const DEMO_URL = '';
+/* Where "Book a demo" and "Get a quote" go: the booking page, opened as it is,
+   in a new tab, with nothing added to the address. The links in the HTML carry
+   the same address, so they work before this script runs; change both. */
+const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
 
 (function () {
   'use strict';
@@ -38,6 +34,10 @@ const DEMO_URL = '';
     document.documentElement.setAttribute('data-theme', e.matches ? 'light' : 'dark');
     syncThemeLabel();
   });
+
+  // Smooth in-page scrolling starts once the page has opened (see site.css).
+  const markLoaded = () => setTimeout(() => document.documentElement.classList.add('is-loaded'), 100);
+  if (document.readyState === 'complete') markLoaded(); else window.addEventListener('load', markLoaded, { once: true });
 
   /* ---------- Header and menu ---------- */
   const header = $('[data-header]');
@@ -204,81 +204,12 @@ const DEMO_URL = '';
     });
   });
 
-  /* Book a demo, or get a quote: the same form with its own heading. */
-  const demoDlg = $('[data-demo-dialog]');
-  const form = $('[data-demo-form]');
-  const INTENTS = {
-    demo: { title: 'Book a demo', lede: 'Tell us about your team and we will set up a time to show you TeamUp.', submit: 'Request a demo' },
-    quote: { title: 'Get a quote', lede: 'Tell us about your company and we will send a quote for the licence, and for updates and server care if you want them.', submit: 'Request a quote' },
-  };
-  const setIntent = (name) => {
-    const it = INTENTS[name] || INTENTS.demo;
-    $('#demo-title').textContent = it.title;
-    $('[data-form-lede]', form).textContent = it.lede;
-    $('[data-form-submit]', form).textContent = it.submit;
-    $('[data-intent-field]', form).value = INTENTS[name] ? name : 'demo';
-    $('[data-form-done]', form).hidden = true;
-    $('[data-form-error]', form).hidden = true;
-  };
-  $$('[data-demo]').forEach((a) => a.addEventListener('click', (e) => {
-    if (!demoDlg) return;
-    e.preventDefault();
-    closeNav();
-    setIntent(a.dataset.intent || 'demo');
-    openDialog(demoDlg);
-    setTimeout(() => $('#f-name')?.focus(), 30);
-  }));
-  if (location.hash === '#demo' && demoDlg) afterLoad(() => openDialog(demoDlg));
-  demoDlg?.addEventListener('close', () => {
-    if (location.hash === '#demo') history.replaceState(null, '', location.pathname + location.search);
-  });
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const err = $('[data-form-error]', form);
-    const done = $('[data-form-done]', form);
-    const fields = $$('input, select, textarea', form);
-    fields.forEach((f) => f.removeAttribute('aria-invalid'));
-    const bad = fields.filter((f) => !f.checkValidity());
-    if (bad.length) {
-      bad.forEach((f) => f.setAttribute('aria-invalid', 'true'));
-      const emailBad = bad.find((f) => f.type === 'email' && f.value);
-      err.textContent = emailBad ? 'Please check the email address.' : 'Please fill in your name, work email, company and team size.';
-      err.hidden = false;
-      done.hidden = true;
-      bad[0].focus();
-      return;
-    }
-    err.hidden = true;
-    const d = Object.fromEntries(new FormData(form).entries());
-    const quote = d.intent === 'quote';
-    const summary = `${quote ? 'Request: a quote' : 'Request: a demo'}\nName: ${d.name}\nWork email: ${d.email}\nCompany: ${d.company}\nTeam size: ${d.size}\n\n${d.message || ''}`.trim();
-    const target = DEMO_URL.trim();
-    done.className = 'form-done';
-    if (/^mailto:/i.test(target)) {
-      const href = `${target}${target.includes('?') ? '&' : '?'}subject=${encodeURIComponent(`TeamUp ${quote ? 'quote' : 'demo'} for ${d.company}`)}&body=${encodeURIComponent(summary)}`;
-      window.location.href = href;
-      done.classList.add('is-ok');
-      done.textContent = `Your email app should open with the request filled in. Send it and we will reply ${quote ? 'with a quote' : 'to arrange a time'}.`;
-    } else if (/^https:\/\//i.test(target)) {
-      let href = target;
-      try {
-        const u = new URL(target);
-        u.searchParams.set('name', d.name);
-        u.searchParams.set('email', d.email);
-        if (quote) u.searchParams.set('intent', 'quote');
-        href = u.toString();
-      } catch (er) { /* keep it as given */ }
-      window.open(href, '_blank', 'noopener');
-      done.classList.add('is-ok');
-      done.textContent = 'The booking page opened in a new tab. Pick a time there.';
-    } else if (isLocal) {
-      done.innerHTML = '<b>We could not send this yet: add DEMO_URL.</b> Developer note: set <code>DEMO_URL</code> at the top of <code>assets/js/main.js</code> to a <code>mailto:</code> address or an <code>https:</code> booking link. Your answers are still in the form.';
-    } else {
-      done.textContent = 'We could not send this yet. Your answers are still here; please try again later.';
-    }
-    done.hidden = false;
-    done.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  /* Book a demo and Get a quote both open the booking page. */
+  $$('[data-demo]').forEach((a) => {
+    a.href = DEMO_URL;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.addEventListener('click', closeNav);
   });
 
   /* The launch film */

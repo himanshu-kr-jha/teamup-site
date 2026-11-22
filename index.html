@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>TeamUp: chat, calls and tasks on your own server</title>
-  <meta name="description" content="TeamUp is a team workspace you install on your own server: chat, video calls with meeting notes, tasks, calendar and files in one app. One licence for your company, no monthly fee per person, and your data stays with you.">
+  <title>TeamUp: Self-Hosted Team Chat, Video Calls and Tasks</title>
+  <meta name="description" content="Self-hosted alternative to Slack and Microsoft Teams: team chat, video calls with AI meeting notes, tasks and calendar on your own server. One-time licence, no per-user fees.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; media-src 'self'; font-src 'self'; connect-src 'self'; form-action 'self' mailto: https:; base-uri 'self'; object-src 'none'">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="color-scheme" content="dark light">
@@ -16,16 +16,17 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="TeamUp">
-  <meta property="og:title" content="TeamUp: your team's whole day, on your own server">
-  <meta property="og:description" content="Chat, video calls with meeting notes, tasks, calendar and files in one app on your own server. One licence for your company, no monthly fee per person.">
+  <meta property="og:locale" content="en_IN">
+  <meta property="og:title" content="TeamUp: Self-Hosted Team Chat, Video Calls and Tasks">
+  <meta property="og:description" content="Self-hosted alternative to Slack and Microsoft Teams: team chat, video calls with AI meeting notes, tasks and calendar on your own server. One-time licence, no per-user fees.">
   <meta property="og:url" content="https://himanshu-kr-jha.github.io/teamup-site/">
   <meta property="og:image" content="https://himanshu-kr-jha.github.io/teamup-site/assets/img/og.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="TeamUp: your team's whole day, on your own server">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="TeamUp: your team's whole day, on your own server">
-  <meta name="twitter:description" content="Chat, video calls with meeting notes, tasks, calendar and files in one app on your own server. One licence, no monthly fee per person.">
+  <meta name="twitter:title" content="TeamUp: Self-Hosted Team Chat, Video Calls and Tasks">
+  <meta name="twitter:description" content="Self-hosted alternative to Slack and Microsoft Teams: team chat, video calls with AI meeting notes, tasks and calendar on your own server. One-time licence, no per-user fees.">
   <meta name="twitter:image" content="https://himanshu-kr-jha.github.io/teamup-site/assets/img/og.png">
   <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -33,7 +34,8 @@
   <link rel="stylesheet" href="assets/css/site.css">
   <script src="assets/js/main.js" defer></script>
   <script src="assets/js/demos.js" defer></script>
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"TeamUp","applicationCategory":"BusinessApplication","operatingSystem":"Linux","softwareVersion":"1.0","url":"https://himanshu-kr-jha.github.io/teamup-site/","description":"Team workspace installed on your own server: chat, video calls with meeting notes, tasks, calendar and files in one app, sold as a one-time licence for your company."}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TeamUp", "url": "https://himanshu-kr-jha.github.io/teamup-site/", "applicationCategory": "BusinessApplication", "applicationSubCategory": "Team collaboration", "operatingSystem": "Linux", "softwareVersion": "1.0", "image": "https://himanshu-kr-jha.github.io/teamup-site/assets/img/og.png", "description": "Self-hosted team workspace: chat, video calls with AI meeting notes, tasks, calendar and files in one app on your own server.", "featureList": ["Team chat", "Video calls and screen sharing", "AI meeting notes", "Tasks and scrum table", "Stand-ups with attendance", "Calendar with Google Calendar sync", "Custom roles and permissions", "Installs on phones"], "offers": {"@type": "Offer", "description": "One-time licence for your company. Updates and server setup and maintenance are priced separately.", "url": "https://calendar.app.google/N49RsbFjwGHiVa6d6", "availability": "https://schema.org/InStock"}}</script>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is it a subscription?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your company buys a one-time licence and runs TeamUp on its own server. Updates and help with the server are separate, and only if you want them."}}, {"@type": "Question", "name": "Do we pay per user?", "acceptedAnswer": {"@type": "Answer", "text": "No. The licence covers your company, so adding people does not add a monthly fee. Your server is the one running cost, and a bigger team may need a bigger server."}}, {"@type": "Question", "name": "What do updates cost?", "acceptedAnswer": {"@type": "Answer", "text": "New versions are quoted per release or as a plan. You decide whether and when to update; the version you have keeps working."}}, {"@type": "Question", "name": "Can our own IT team run it?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Your IT team can install and maintain TeamUp themselves, or we can set up and look after the server for you, priced separately."}}, {"@type": "Question", "name": "What do I need to host it?", "acceptedAnswer": {"@type": "Answer", "text": "One Linux VM with Docker Compose is the recommended path. It runs TeamUp with Postgres, Redis, MinIO and LiveKit, and we can set it up for you, or your IT team can follow the guide from a fresh Ubuntu server to a running team. In our load test, a server with 2 processors carried about 500 busy people. Files can live in Amazon S3, Cloudflare R2 or Backblaze B2 instead."}}, {"@type": "Question", "name": "Where does our data live? Does anything leave the server?", "acceptedAnswer": {"@type": "Answer", "text": "Messages, tasks, the calendar and files stay in your Postgres and your S3 storage, and call media goes through LiveKit on your server. Things leave only when you switch them on: your mail server for email, Google Calendar sync, and the meeting note-taker, which sends call audio to Sarvam for speech to text and the transcript to the minutes model you pick, or to your own model."}}, {"@type": "Question", "name": "Does it work on phones?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every screen fits phones and tablets, and TeamUp installs to an Android or iPhone home screen. There is also an Android app that opens the same web app of your server, with iPhone to follow."}}, {"@type": "Question", "name": "What is not there yet?", "acceptedAnswer": {"@type": "Answer", "text": "Google and Microsoft sign-in are not finished, so password sign-in is the way in. Recording needs LiveKit Egress added in production. Federation, end-to-end encryption, native mobile apps and retention policies are not built."}}, {"@type": "Question", "name": "Is it ready for a real team?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Cognecto runs its working day on TeamUp 1.0: stand-ups every morning, dozens of people in calls, and the tasks and scrum that come out of them."}}, {"@type": "Question", "name": "Can people outside the company join a call?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Guests join a meeting by its link with their name and a passcode, and the organizer can remove them."}}, {"@type": "Question", "name": "What happens in a demo?", "acceptedAnswer": {"@type": "Answer", "text": "We show TeamUp running a team's day, answer your questions about running it on your server, and look at whether it fits how your team works. If it does, we send a quote."}}]}</script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
@@ -112,7 +114,7 @@
         <svg class="when-dark" aria-hidden="true"><use href="#i-sun"/></svg>
         <svg class="when-light" aria-hidden="true"><use href="#i-moon"/></svg>
       </button>
-      <a class="btn btn-primary btn-sm" href="#demo" data-demo>Book a demo</a>
+      <a class="btn btn-primary btn-sm" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo<span class="sr-only"> (opens a booking page in a new tab)</span></a>
     </div>
   </div>
 </header>
@@ -145,11 +147,11 @@
     <a class="pill" href="#buy">
       <span class="pill-tag">New</span> TeamUp 1.0: one licence, your server <svg aria-hidden="true"><use href="#i-arrow"/></svg>
     </a>
-    <h1 id="hero-title" class="hero-title">Your team's whole day,<br> <span class="grad">on your own server.</span></h1>
+    <h1 id="hero-title" class="hero-title"><span class="hero-kicker">Self-hosted team chat, video calls and tasks</span> Your team's whole day,<br> <span class="grad">on your own server.</span></h1>
     <p class="hero-sub">Chat, video calls with meeting notes, tasks, calendar and files in one app, installed on your own server. Your company buys it once, with no monthly fee per person, and your data stays with you.</p>
     <div class="cta-row">
-      <a class="btn btn-primary btn-lg" href="#demo" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="btn btn-ghost btn-lg" href="#demo" data-demo data-intent="quote">Get a quote</a>
+      <a class="btn btn-primary btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens a booking page in a new tab)</span></a>
+      <a class="btn btn-ghost btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
     </div>
     <ul class="hero-facts" aria-label="At a glance">
       <li><svg aria-hidden="true"><use href="#i-check"/></svg>One Go binary</li>
@@ -169,8 +171,8 @@
 <section class="proof" aria-label="Facts about TeamUp">
   <div class="container proof-grid">
     <div class="proof-item"><strong>~500</strong><span>busy people on one 2-CPU server in our load test</span></div>
-    <div class="proof-item"><strong>Every day</strong><span>Cognecto runs its stand-ups, calls and scrum on it. <a href="customers.html">See how</a></span></div>
-    <div class="proof-item"><strong>Once</strong><span>a one-time licence for your company, not a monthly fee per person. <a href="#buy">How it works</a></span></div>
+    <div class="proof-item"><strong>Every day</strong><span>Cognecto runs its stand-ups, calls and scrum on it. <a href="customers.html">See how Cognecto uses TeamUp</a></span></div>
+    <div class="proof-item"><strong>Once</strong><span>a one-time licence for your company, not a monthly fee per person. <a href="#buy">How you buy TeamUp</a></span></div>
     <div class="proof-item"><strong>1 binary</strong><span>with the web app compiled in, so the API and UI never drift</span></div>
   </div>
 </section>
@@ -591,8 +593,8 @@
       </ul>
 
       <div class="roi reveal" data-roi>
-        <h3>One payment, or paying per person every month?</h3>
-        <p class="small muted">An estimate. The TeamUp amounts are examples, not our prices: <a href="#demo" data-demo data-intent="quote">get a quote</a> for real ones.</p>
+        <h3>What per-person pricing costs you</h3>
+        <p class="small muted">Put in what you pay today. Nothing here is a TeamUp price.</p>
         <div class="roi-row">
           <div class="roi-field">
             <label for="roi-people">People <output for="roi-people" data-roi-people-out>50</output></label>
@@ -604,31 +606,15 @@
           </div>
         </div>
         <div class="roi-field">
-          <label for="roi-seat">Per-person tools today, per person per month</label>
-          <div class="money"><select aria-label="Currency" data-roi-cur><option value="$">$</option><option value="€">€</option><option value="£">£</option><option value="₹">₹</option></select><input id="roi-seat" type="number" inputmode="decimal" min="0" step="0.5" value="15" data-roi-seat></div>
-        </div>
-        <div class="roi-row">
-          <div class="roi-field">
-            <!-- CONFIRM: example one-time licence amount for the estimate -->
-            <label for="roi-licence">TeamUp licence, one time <span class="example-tag" data-confirm>example</span></label>
-            <div class="money"><span data-roi-cur-label>$</span><input id="roi-licence" type="number" inputmode="decimal" min="0" step="500" value="10000" data-roi-licence></div>
-          </div>
-          <div class="roi-field">
-            <!-- CONFIRM: example yearly maintenance amount for the estimate -->
-            <label for="roi-maint">Maintenance, per year <span class="example-tag" data-confirm>example</span></label>
-            <div class="money"><span data-roi-cur-label>$</span><input id="roi-maint" type="number" inputmode="decimal" min="0" step="100" value="2000" data-roi-maint></div>
-          </div>
-        </div>
-        <div class="roi-field">
-          <label for="roi-server">Your server, per month <span class="example-tag">example</span></label>
-          <div class="money"><span data-roi-cur-label>$</span><input id="roi-server" type="number" inputmode="decimal" min="0" step="5" value="60" data-roi-server></div>
-        </div>
-        <div class="roi-bars" aria-hidden="true">
-          <div class="roi-bar"><span>Per person</span><i data-roi-bar-seat></i></div>
-          <div class="roi-bar is-us"><span>TeamUp</span><i data-roi-bar-us></i></div>
+          <label for="roi-seat">What you pay per person, per month, for your chat, call and task tools</label>
+          <div class="money"><select aria-label="Currency" data-roi-cur><option value="₹">₹</option><option value="$">$</option><option value="€">€</option><option value="£">£</option></select><input id="roi-seat" type="number" inputmode="decimal" min="0" step="any" placeholder="Your price" data-roi-seat></div>
         </div>
         <p class="roi-result" role="status" aria-live="polite" data-roi-result></p>
-        <p class="tiny muted">Not a quote. Set maintenance to 0 if your own IT team runs the server. New versions are priced separately and are not in this sum. Big video meetings use bandwidth, and hosted AI minutes are billed by their provider.</p>
+        <div class="roi-us">
+          <p class="roi-us-title"><span class="brand-mark" aria-hidden="true"><svg><use href="#i-logo"/></svg></span> TeamUp instead</p>
+          <p>One licence for the whole company, paid once. Updates and server maintenance only if you want them. The bill does not grow with every person you add.</p>
+          <a class="btn btn-primary btn-sm" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
+        </div>
       </div>
     </div>
   </div>
@@ -666,8 +652,8 @@
       </li>
     </ol>
     <div class="buy-cta reveal">
-      <a class="btn btn-primary btn-lg" href="#demo" data-demo data-intent="quote">Get a quote <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="btn btn-ghost btn-lg" href="#demo" data-demo>Book a demo</a>
+      <a class="btn btn-primary btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote <svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens a booking page in a new tab)</span></a>
+      <a class="btn btn-ghost btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo<span class="sr-only"> (opens a booking page in a new tab)</span></a>
     </div>
 
     <div class="buy-details">
@@ -717,6 +703,28 @@
         <p class="tiny muted">Typical means the median (p50). Bigger teams scale the server up.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features" aria-labelledby="features-title">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Everything in TeamUp</p>
+      <h2 id="features-title">A team workspace on your own premises, feature by feature</h2>
+      <p class="lede">TeamUp replaces the separate chat, video, note-taking, task and calendar apps with one on-premise workspace. It suits companies in India and anywhere else that want their team's data on a server they control.</p>
+    </div>
+    <div class="feature-index reveal">
+      <article><h3>Team chat</h3><p>Channels, private and announcement channels, direct messages, threads, reactions, read receipts, @mentions that notify, voice and video messages, several files at once, PDFs read in place, forwarding and full-text search.</p></article>
+      <article><h3>Video calls and meetings</h3><p>Multi-party video calls on LiveKit with screen sharing, a check before you join, raise hand, a speaking light, noise cancellation, backgrounds with your name, laptop and phone in one call, voice first on a weak connection, and guests by link with a passcode.</p></article>
+      <article><h3>AI meeting notes</h3><p>A visible note-taker writes the summary, decisions and action items with owners, using Claude, OpenAI, NVIDIA or your own model, and sends them to everybody who was there.</p></article>
+      <article><h3>Tasks and scrum</h3><p>Tasks with assignees, labels, comments, watchers and due dates, a board, and the scrum as a table: each person, their lead, Task 1 and on, Done, and what each blocked task is blocked on.</p></article>
+      <article><h3>Stand-ups and attendance</h3><p>Standing meetings for chosen teams or people, attendance taken from the call itself, and leave and holidays shown beside it.</p></article>
+      <article><h3>Calendar</h3><p>Month, week and day views, focus time, open slots, availability across people, Google Calendar sync, and calls shown for the time each person was really in them.</p></article>
+      <article><h3>Phones and search</h3><p>Every screen fits phones and tablets, TeamUp installs to an Android or iPhone home screen, and search only shows what each person may see.</p></article>
+      <article><h3>Administration and security</h3><p>Custom roles with fine-grained permissions, a team tree, your organization's colour and logo, email through your mail server, a public status page, metrics and nightly backups.</p></article>
+    </div>
+    <p class="feature-links reveal">Compare it with what you use now: TeamUp is a <a href="#own">Slack and Microsoft Teams alternative that runs on your own server</a>, sold as <a href="#buy">one-time licence team collaboration software</a>. See <a href="customers.html">how Cognecto and other teams use it</a>.</p>
   </div>
 </section>
 
@@ -783,8 +791,8 @@
     <h2 id="final-title">Your team. Your server. Your data.</h2>
     <p class="lede">See TeamUp run a working day, then get a quote for your company.</p>
     <div class="cta-row cta-center">
-      <a class="btn btn-primary btn-lg" href="#demo" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-      <a class="btn btn-ghost btn-lg" href="#demo" data-demo data-intent="quote">Get a quote</a>
+      <a class="btn btn-primary btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens a booking page in a new tab)</span></a>
+      <a class="btn btn-ghost btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
     </div>
   </div>
 </section>
@@ -798,9 +806,9 @@
       <p class="small muted">Chat, calls, tasks and files on your own server. One licence for your company.</p>
     </div>
     <nav class="footer-links" aria-label="Footer">
-      <div><h2>Product</h2><a href="#tour">Tour</a><a href="#calls">Calls</a><a href="#notes">Meeting notes</a><a href="#scrum">Scrum</a></div>
-      <div><h2>Company</h2><a href="customers.html">Customers</a><a href="#demo" data-demo>Book a demo</a><a href="#faq">FAQ</a></div>
-      <div><h2>Buying</h2><a href="#buy">How you buy</a><a href="#demo" data-demo data-intent="quote">Get a quote</a><a href="#own">Your server, your data</a></div>
+      <div><p class="footer-h">Product</p><a href="#tour">Tour</a><a href="#calls">Calls</a><a href="#notes">Meeting notes</a><a href="#scrum">Scrum</a></div>
+      <div><p class="footer-h">Company</p><a href="customers.html">Customers</a><a href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo<span class="sr-only"> (opens a booking page in a new tab)</span></a><a href="#faq">FAQ</a></div>
+      <div><p class="footer-h">Buying</p><a href="#buy">How you buy</a><a href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a><a href="#own">Your server, your data</a></div>
     </nav>
   </div>
   <div class="container footer-base">
@@ -809,35 +817,9 @@
 </footer>
 
 <div class="mobile-cta" data-mobile-cta>
-  <a class="btn btn-primary" href="#demo" data-demo>Book a demo</a>
-  <a class="btn btn-ghost" href="#demo" data-demo data-intent="quote">Get a quote</a>
+  <a class="btn btn-primary" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo<span class="sr-only"> (opens a booking page in a new tab)</span></a>
+  <a class="btn btn-ghost" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
 </div>
-
-<dialog class="modal" id="demo" aria-labelledby="demo-title" data-demo-dialog>
-  <form class="demo-form" method="dialog" data-demo-form novalidate>
-    <div class="modal-head">
-      <h2 id="demo-title">Book a demo</h2>
-      <button class="icon-btn" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
-    </div>
-    <p class="small muted" data-form-lede>Tell us about your team and we will set up a time to show you TeamUp.</p>
-    <input type="hidden" name="intent" value="demo" data-intent-field>
-    <div class="form-grid">
-      <div class="field"><label for="f-name">Name</label><input id="f-name" name="name" autocomplete="name" required></div>
-      <div class="field"><label for="f-email">Work email</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
-      <div class="field"><label for="f-company">Company</label><input id="f-company" name="company" autocomplete="organization" required></div>
-      <div class="field"><label for="f-size">Team size</label>
-        <select id="f-size" name="size" required><option value="">Choose</option><option>1 to 10</option><option>11 to 50</option><option>51 to 200</option><option>201 to 500</option><option>More than 500</option></select>
-      </div>
-      <div class="field field-wide"><label for="f-msg">What should we cover? <span class="muted">(optional)</span></label><textarea id="f-msg" name="message" rows="3"></textarea></div>
-    </div>
-    <p class="form-error" data-form-error role="alert" hidden></p>
-    <div class="form-done" data-form-done hidden role="status"></div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" type="submit" data-form-submit>Request a demo</button>
-    </div>
-    <p class="tiny muted">We only use this to reply to you. No newsletters.</p>
-  </form>
-</dialog>
 
 <dialog class="modal modal-film" aria-label="TeamUp launch film" data-film-dialog>
   <div class="modal-head">

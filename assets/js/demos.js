@@ -667,38 +667,32 @@
     }
   })();
 
-  /* ================= One payment vs paying per person ================= */
+  /* ================= What per-person pricing costs ================= */
+  // Only the visitor's own numbers: no TeamUp price is shown or assumed.
   (function roi() {
     const root = $('[data-roi]');
     if (!root) return;
     const f = (sel) => $(sel, root);
     const people = f('[data-roi-people]'); const years = f('[data-roi-years]');
-    const seat = f('[data-roi-seat]'); const licence = f('[data-roi-licence]');
-    const maint = f('[data-roi-maint]'); const server = f('[data-roi-server]');
-    const cur = f('[data-roi-cur]');
+    const seat = f('[data-roi-seat]'); const cur = f('[data-roi-cur]');
     const out = f('[data-roi-result]');
-    const barSeat = f('[data-roi-bar-seat]'); const barUs = f('[data-roi-bar-us]');
-    const nf = new Intl.NumberFormat('en', { maximumFractionDigits: 0 });
-    const num = (el) => Math.max(0, Number(el.value) || 0);
+    const nf = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
     const calc = () => {
-      const n = num(people); const y = num(years) || 1; const c = cur.value;
-      $$('[data-roi-cur-label]', root).forEach((l) => { l.textContent = c; });
+      const n = Number(people.value) || 0; const y = Number(years.value) || 1; const c = cur.value;
       f('[data-roi-people-out]').textContent = nf.format(n);
       f('[data-roi-years-out]').textContent = String(y);
       people.setAttribute('aria-valuetext', `${nf.format(n)} people`);
       years.setAttribute('aria-valuetext', `${y} ${y === 1 ? 'year' : 'years'}`);
-      const perPerson = n * num(seat) * 12 * y;
-      const ours = num(licence) + num(maint) * y + num(server) * 12 * y;
-      const max = Math.max(perPerson, ours, 1);
-      barSeat.style.transform = `scaleX(${Math.max(perPerson / max, 0.01)})`;
-      barUs.style.transform = `scaleX(${Math.max(ours / max, 0.01)})`;
       const span = `${y} ${y === 1 ? 'year' : 'years'}`;
-      const diff = perPerson - ours;
-      out.innerHTML = diff > 0
-        ? `<strong>${c}${nf.format(diff)} less over ${span}</strong>Paying per person: ${c}${nf.format(perPerson)}. TeamUp, with the example licence, maintenance and server: ${c}${nf.format(ours)}.`
-        : `<strong>Paying per person costs less here</strong>Over ${span}: ${c}${nf.format(perPerson)} per person, against ${c}${nf.format(ours)} for TeamUp. A one-time licence pays off with more people or more years.`;
+      const price = Number(seat.value);
+      if (!seat.value || !(price > 0)) {
+        out.innerHTML = `<strong>Your number goes here</strong>Enter what you pay per person each month to see the total for ${nf.format(n)} people over ${span}.`;
+        return;
+      }
+      const total = n * price * 12 * y;
+      out.innerHTML = `<strong>${c}${nf.format(total)} over ${span}</strong>${nf.format(n)} people × ${c}${nf.format(price)} a month × ${y * 12} months, and it grows with every person you add.`;
     };
-    [people, years, seat, licence, maint, server, cur].forEach((el) => el.addEventListener('input', calc));
+    [people, years, seat, cur].forEach((el) => el.addEventListener('input', calc));
     calc();
   })();
 })();
