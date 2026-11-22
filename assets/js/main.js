@@ -1,12 +1,11 @@
-/* Where "Book a demo" sends a request. Leave empty until there is a real one.
+/* Where "Book a demo" and "Get a quote" send a request (one form, two intents). Leave empty until there is a real one.
    - 'mailto:someone@example.com' opens the visitor's email app with the form filled in.
    - 'https://...' (a booking page) opens in a new tab, with name and email added
-     as ?name=&email= so booking pages such as Cal.com or Calendly can prefill them.
+     as ?name=&email= (and &intent=quote for a quote) so booking pages such as
+     Cal.com or Calendly can prefill them.
    While it is empty, the form says it could not send, and on a local preview it
    says to set this. */
 const DEMO_URL = '';
-
-const REPO_URL = 'https://github.com/himanshu-kr-jha/teamup.sh';
 
 (function () {
   'use strict';
@@ -205,13 +204,27 @@ const REPO_URL = 'https://github.com/himanshu-kr-jha/teamup.sh';
     });
   });
 
-  /* Book a demo */
+  /* Book a demo, or get a quote: the same form with its own heading. */
   const demoDlg = $('[data-demo-dialog]');
   const form = $('[data-demo-form]');
+  const INTENTS = {
+    demo: { title: 'Book a demo', lede: 'Tell us about your team and we will set up a time to show you TeamUp.', submit: 'Request a demo' },
+    quote: { title: 'Get a quote', lede: 'Tell us about your company and we will send a quote for the licence, and for updates and server care if you want them.', submit: 'Request a quote' },
+  };
+  const setIntent = (name) => {
+    const it = INTENTS[name] || INTENTS.demo;
+    $('#demo-title').textContent = it.title;
+    $('[data-form-lede]', form).textContent = it.lede;
+    $('[data-form-submit]', form).textContent = it.submit;
+    $('[data-intent-field]', form).value = INTENTS[name] ? name : 'demo';
+    $('[data-form-done]', form).hidden = true;
+    $('[data-form-error]', form).hidden = true;
+  };
   $$('[data-demo]').forEach((a) => a.addEventListener('click', (e) => {
     if (!demoDlg) return;
     e.preventDefault();
     closeNav();
+    setIntent(a.dataset.intent || 'demo');
     openDialog(demoDlg);
     setTimeout(() => $('#f-name')?.focus(), 30);
   }));
@@ -238,20 +251,22 @@ const REPO_URL = 'https://github.com/himanshu-kr-jha/teamup.sh';
     }
     err.hidden = true;
     const d = Object.fromEntries(new FormData(form).entries());
-    const summary = `Name: ${d.name}\nWork email: ${d.email}\nCompany: ${d.company}\nTeam size: ${d.size}\n\n${d.message || ''}`.trim();
+    const quote = d.intent === 'quote';
+    const summary = `${quote ? 'Request: a quote' : 'Request: a demo'}\nName: ${d.name}\nWork email: ${d.email}\nCompany: ${d.company}\nTeam size: ${d.size}\n\n${d.message || ''}`.trim();
     const target = DEMO_URL.trim();
     done.className = 'form-done';
     if (/^mailto:/i.test(target)) {
-      const href = `${target}${target.includes('?') ? '&' : '?'}subject=${encodeURIComponent(`TeamUp demo for ${d.company}`)}&body=${encodeURIComponent(summary)}`;
+      const href = `${target}${target.includes('?') ? '&' : '?'}subject=${encodeURIComponent(`TeamUp ${quote ? 'quote' : 'demo'} for ${d.company}`)}&body=${encodeURIComponent(summary)}`;
       window.location.href = href;
       done.classList.add('is-ok');
-      done.textContent = 'Your email app should open with the request filled in. Send it and we will reply to arrange a time.';
+      done.textContent = `Your email app should open with the request filled in. Send it and we will reply ${quote ? 'with a quote' : 'to arrange a time'}.`;
     } else if (/^https:\/\//i.test(target)) {
       let href = target;
       try {
         const u = new URL(target);
         u.searchParams.set('name', d.name);
         u.searchParams.set('email', d.email);
+        if (quote) u.searchParams.set('intent', 'quote');
         href = u.toString();
       } catch (er) { /* keep it as given */ }
       window.open(href, '_blank', 'noopener');
@@ -260,7 +275,7 @@ const REPO_URL = 'https://github.com/himanshu-kr-jha/teamup.sh';
     } else if (isLocal) {
       done.innerHTML = '<b>We could not send this yet: add DEMO_URL.</b> Developer note: set <code>DEMO_URL</code> at the top of <code>assets/js/main.js</code> to a <code>mailto:</code> address or an <code>https:</code> booking link. Your answers are still in the form.';
     } else {
-      done.innerHTML = `We could not send this yet. Your answers are still here; please try again later, or reach us on <a href="${REPO_URL}" rel="noopener">GitHub</a>.`;
+      done.textContent = 'We could not send this yet. Your answers are still here; please try again later.';
     }
     done.hidden = false;
     done.scrollIntoView({ block: 'nearest', behavior: 'smooth' });

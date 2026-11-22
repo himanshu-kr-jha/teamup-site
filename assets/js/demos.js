@@ -667,37 +667,38 @@
     }
   })();
 
-  /* ================= Seat cost estimate ================= */
+  /* ================= One payment vs paying per person ================= */
   (function roi() {
     const root = $('[data-roi]');
     if (!root) return;
-    const people = $('[data-roi-people]', root);
-    const peopleOut = $('[data-roi-people-out]', root);
-    const seat = $('[data-roi-seat]', root);
-    const server = $('[data-roi-server]', root);
-    const cur = $('[data-roi-cur]', root);
-    const curLabel = $('[data-roi-cur-label]', root);
-    const out = $('[data-roi-result]', root);
-    const barSeat = $('[data-roi-bar-seat]', root);
-    const barUs = $('[data-roi-bar-us]', root);
+    const f = (sel) => $(sel, root);
+    const people = f('[data-roi-people]'); const years = f('[data-roi-years]');
+    const seat = f('[data-roi-seat]'); const licence = f('[data-roi-licence]');
+    const maint = f('[data-roi-maint]'); const server = f('[data-roi-server]');
+    const cur = f('[data-roi-cur]');
+    const out = f('[data-roi-result]');
+    const barSeat = f('[data-roi-bar-seat]'); const barUs = f('[data-roi-bar-us]');
     const nf = new Intl.NumberFormat('en', { maximumFractionDigits: 0 });
+    const num = (el) => Math.max(0, Number(el.value) || 0);
     const calc = () => {
-      const n = Number(people.value) || 0;
-      const s = Math.max(0, Number(seat.value) || 0);
-      const v = Math.max(0, Number(server.value) || 0);
-      const c = cur.value;
-      curLabel.textContent = c;
-      peopleOut.textContent = nf.format(n);
+      const n = num(people); const y = num(years) || 1; const c = cur.value;
+      $$('[data-roi-cur-label]', root).forEach((l) => { l.textContent = c; });
+      f('[data-roi-people-out]').textContent = nf.format(n);
+      f('[data-roi-years-out]').textContent = String(y);
       people.setAttribute('aria-valuetext', `${nf.format(n)} people`);
-      const seats = n * s * 12; const ours = v * 12; const max = Math.max(seats, ours, 1);
-      barSeat.style.transform = `scaleX(${seats / max})`;
+      years.setAttribute('aria-valuetext', `${y} ${y === 1 ? 'year' : 'years'}`);
+      const perPerson = n * num(seat) * 12 * y;
+      const ours = num(licence) + num(maint) * y + num(server) * 12 * y;
+      const max = Math.max(perPerson, ours, 1);
+      barSeat.style.transform = `scaleX(${Math.max(perPerson / max, 0.01)})`;
       barUs.style.transform = `scaleX(${Math.max(ours / max, 0.01)})`;
-      const diff = seats - ours;
+      const span = `${y} ${y === 1 ? 'year' : 'years'}`;
+      const diff = perPerson - ours;
       out.innerHTML = diff > 0
-        ? `<strong>${c}${nf.format(diff)} a year less</strong>${nf.format(n)} seats cost ${c}${nf.format(seats)} a year. One server costs ${c}${nf.format(ours)} a year.`
-        : `<strong>Seats cost less at this size</strong>${nf.format(n)} seats cost ${c}${nf.format(seats)} a year, the server ${c}${nf.format(ours)}. TeamUp pays off as the team grows.`;
+        ? `<strong>${c}${nf.format(diff)} less over ${span}</strong>Paying per person: ${c}${nf.format(perPerson)}. TeamUp, with the example licence, maintenance and server: ${c}${nf.format(ours)}.`
+        : `<strong>Paying per person costs less here</strong>Over ${span}: ${c}${nf.format(perPerson)} per person, against ${c}${nf.format(ours)} for TeamUp. A one-time licence pays off with more people or more years.`;
     };
-    [people, seat, server, cur].forEach((el) => el.addEventListener('input', calc));
+    [people, years, seat, licence, maint, server, cur].forEach((el) => el.addEventListener('input', calc));
     calc();
   })();
 })();

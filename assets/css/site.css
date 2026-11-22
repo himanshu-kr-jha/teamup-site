@@ -1041,3 +1041,30 @@ code { background: var(--surface-3); padding: 1px 6px; border-radius: 6px; overf
   .stat strong { font-size: 1.2rem; }
   .stat span { font-size: 0.75rem; }
 }
+
+/* ---------- How you buy ---------- */
+.buy-grid { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; counter-reset: none; }
+.buy-card { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 26px; border-radius: 20px; background: var(--surface); border: 1px solid var(--border-strong); box-shadow: var(--shadow); }
+.buy-card.is-main { border-color: var(--primary-line); background: linear-gradient(180deg, var(--primary-soft), transparent 70%), var(--surface); box-shadow: var(--glow); }
+.buy-num { position: absolute; top: 22px; right: 24px; font-family: 'Space Grotesk', sans-serif; font-size: 2.6rem; line-height: 1; color: var(--border-strong); }
+.buy-card h3 { font-size: 1.3rem; margin-top: 4px; }
+.buy-card p { color: var(--text-2); }
+.buy-card ul { list-style: none; display: grid; gap: 6px; margin-top: auto; padding-top: 6px; }
+.buy-card li { position: relative; padding-left: 24px; font-size: 0.9rem; font-weight: 600; color: var(--text-2); }
+.buy-card li::before { content: ''; position: absolute; left: 2px; top: .35em; width: 10px; height: 6px; border-left: 2px solid var(--ok); border-bottom: 2px solid var(--ok); transform: rotate(-45deg); }
+.buy-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 32px; }
+.buy-details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+.buy-details .gaps { margin-top: 0; }
+.example-tag { display: inline-block; margin-left: 4px; padding: 0 7px; border-radius: 999px; background: var(--warn-soft); color: var(--warn); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; vertical-align: 1px; }
+.roi-field label { display: block; }
+.roi-field label output { float: right; line-height: 1.2; }
+.money span { display: grid; place-items: center; }
+.roi-bar { grid-template-columns: 82px 1fr; }
+@media (max-width: 899px) {
+  .buy-grid, .buy-details { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 479px) {
+  .buy-cta .btn { width: 100%; }
+  .buy-card { padding: 20px; }
+}
+.notfound-foot { text-align: center; padding: 0 16px 32px; }
