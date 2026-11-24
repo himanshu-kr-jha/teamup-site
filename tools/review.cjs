@@ -67,9 +67,9 @@ async function overflow(page) {
         if (o.length) note(`overflow ${p} @${width} ${theme}: ${o.join(' | ')}`);
         if (SHOT_WIDTHS.includes(width)) {
           const name = p.replace('.html', '');
-          await page.waitForTimeout(1500); // the hero's videos start after load
-          const flat = await page.addStyleTag({ content: '.site-header{position:relative!important}.type-nav{position:relative!important;top:0!important}.mobile-cta{display:none!important}' });
-          const sections = await page.$$('header.site-header, main > section, main > nav, main.notfound, footer');
+          await page.waitForTimeout(1500); // the recordings start after load
+          const flat = await page.addStyleTag({ content: '.site-header{position:relative!important}.mobile-cta{display:none!important}' });
+          const sections = await page.$$('aside.topline, header.site-header, main > section, main.notfound, footer');
           let i = 0;
           for (const s of sections) {
             const id = (await s.getAttribute('id')) || (await s.evaluate((e) => e.className.split(' ')[0] || e.tagName.toLowerCase()));
@@ -110,9 +110,9 @@ async function overflow(page) {
         const r2 = await page.evaluate((hash) => {
           const t = document.querySelector(hash);
           if (!t) return { missing: true };
-          const head = t.matches('h1,h2,h3') ? t : t.querySelector('h1, h2, h3') || t;
+          const head = t.matches('h1,h2,h3') ? t : t.querySelector(':scope [role="tablist"]') || t.querySelector('h1, h2, h3') || t;
           // A sticky bar covers content only while it is stuck at its top offset.
-          const bars = [...document.querySelectorAll('.site-header, .type-nav')].filter((b) => getComputedStyle(b).position === 'sticky'
+          const bars = [...document.querySelectorAll('.site-header')].filter((b) => getComputedStyle(b).position === 'sticky'
             && b.getBoundingClientRect().top <= (parseFloat(getComputedStyle(b).top) || 0) + 1);
           const cover = Math.max(0, ...bars.map((b) => b.getBoundingClientRect().bottom));
           return { top: Math.round(head.getBoundingClientRect().top), cover: Math.round(cover), vh: innerHeight };
@@ -132,6 +132,21 @@ async function overflow(page) {
     await page.goto(BASE + 'index.html', { waitUntil: 'load' });
     await page.addStyleTag({ content: '.js .reveal{opacity:1!important;transform:none!important}' });
     const tag = `${width}-${theme}`;
+
+    // The product window: a click, then the arrow keys, with one caption at a time.
+    await page.locator('#tab-notes').click();
+    await page.keyboard.press('ArrowRight');
+    await page.waitForTimeout(1200);
+    const tabState = await page.evaluate(() => [document.activeElement.id, document.querySelector('[role="tab"][aria-selected="true"]').id,
+      [...document.querySelectorAll('[data-panel]')].filter((p) => !p.hidden).map((p) => p.id).join()].join(' '));
+    if (tabState !== 'tab-tasks tab-tasks panel-tasks') note(`product window @${tag}: ${tabState}`);
+    await page.locator('[data-showcase]').screenshot({ path: path.join(OUT, `demo-window-${tag}.png`) });
+
+    // The film opens, plays and closes with Escape.
+    await page.locator('[data-film-open]').click();
+    await page.waitForTimeout(800);
+    if (!(await page.evaluate(() => document.querySelector('[data-film-dialog]').open))) note(`film @${tag}: did not open`);
+    await page.keyboard.press('Escape');
 
     await page.locator('#chat-input').scrollIntoViewIfNeeded();
     await page.locator('#chat-input').click();
