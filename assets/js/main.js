@@ -9,9 +9,6 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const isLocal = location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\]|0\.0\.0\.0)$/.test(location.hostname) || location.hostname.endsWith('.local');
-
-  if (isLocal) document.documentElement.classList.add('show-confirm');
 
   /* ---------- Theme ---------- */
   const themeBtn = $('[data-theme-toggle]');
@@ -75,14 +72,6 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
       entries.forEach((e) => { if (e.isIntersecting) { setPoster(e.target); pio.unobserve(e.target); } });
     }, { rootMargin: '600px 0px' });
     $$('video[data-poster]').forEach((v) => pio.observe(v));
-    // The tour's big screen stacks its videos, hidden ones included.
-    const stage = $('[data-tour-screen]');
-    if (stage) {
-      const sio = new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) { $$('video', stage).forEach(setPoster); sio.disconnect(); }
-      }, { rootMargin: '600px 0px' });
-      sio.observe(stage);
-    }
   } else $$('video[data-poster]').forEach(setPoster);
 
   /* ---------- Videos: loaded only when near the screen ---------- */
@@ -116,67 +105,90 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
   }, { rootMargin: '150px 0px' }) : null;
 
   const startLazy = () => $$('[data-lazy-video]').forEach((v) => lazyIO?.observe(v));
-  // The hero's living background waits until the page itself has loaded, so it
-  // never competes with the headline for the first paint.
+  // Recordings start once the page itself has loaded.
   const afterLoad = (fn) => {
     const run = () => ('requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 1500 }) : setTimeout(fn, 300));
     if (document.readyState === 'complete') run(); else window.addEventListener('load', run, { once: true });
   };
   afterLoad(startLazy);
 
-  /* Pause and play the hero background. */
-  const hero = $('.hero');
+  /* ---------- The product window: tabs, one screen, one caption ---------- */
+  const showcase = $('[data-showcase]');
+  const tabs = showcase ? $$('[role="tab"]', showcase) : [];
+  const shotVideo = () => showcase && $('.shot.is-active video', showcase);
+  let showcaseInView = false;
+  let showcaseReady = false;
+  const playShot = () => {
+    const v = shotVideo();
+    if (v && showcaseReady && showcaseInView) tryPlay(v);
+  };
+  if (showcase) {
+    const url = $('[data-showcase-url]', showcase);
+    const select = (tab, focus) => {
+      const name = tab.dataset.tab;
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      $$('[data-shot]', showcase).forEach((s) => {
+        const on = s.dataset.shot === name;
+        s.classList.toggle('is-active', on);
+        s.classList.toggle('is-in', on);
+        const v = $('video', s);
+        v.pause();
+        if (on && v.dataset.loaded) v.currentTime = 0;
+      });
+      $$('[data-panel]', showcase).forEach((p) => {
+        p.hidden = p.dataset.panel !== name;
+        if (!p.hidden) url.textContent = p.dataset.url;
+      });
+      if (focus) tab.focus();
+      playShot();
+    };
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      tab.addEventListener('keydown', (e) => {
+        const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+        if (to === undefined) return;
+        e.preventDefault();
+        select(tabs[(to + tabs.length) % tabs.length], true);
+      });
+    });
+    // The still picture stays until the recording really plays.
+    $$('[data-showcase-video]', showcase).forEach((v) => v.addEventListener('playing', () => v.classList.add('is-playing')));
+    // The other screens' pictures come with the first sign of interest, so a tab
+    // never opens onto nothing and the first paint never waits for them.
+    const fetchShots = () => $$('.shot img', showcase).forEach((img) => { img.loading = 'eager'; });
+    showcase.addEventListener('pointerenter', fetchShots, { once: true });
+    showcase.addEventListener('focusin', fetchShots, { once: true });
+    window.addEventListener('scroll', fetchShots, { once: true, passive: true });
+    // Recordings wait until the page has loaded, so they never hold up the first paint.
+    afterLoad(() => { showcaseReady = true; playShot(); });
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => {
+        showcaseInView = e.isIntersecting;
+        if (showcaseInView) playShot(); else shotVideo()?.pause();
+      }).observe($('.window', showcase));
+    }
+  }
+
+  /* Pause and play every recording on the page. */
   const motionBtn = $('[data-motion-toggle]');
   const setMotion = (on) => {
     motionOn = on;
-    hero?.classList.toggle('is-paused', !on);
     motionBtn?.setAttribute('aria-pressed', String(!on));
     const label = $('[data-motion-label]');
-    if (label) label.textContent = on ? 'Pause background' : 'Play background';
-    $$('video[data-lazy-video], video[data-tour-video]').forEach((v) => {
+    if (label) label.textContent = on ? 'Pause videos' : 'Play videos';
+    $$('[data-lazy-video], [data-showcase-video]').forEach((v) => {
       if (!on) v.pause();
-      else if (visible.has(v) || (v.dataset.tourVideo && v.classList.contains('is-active') && tourInView)) tryPlay(v);
+      else if (visible.has(v)) tryPlay(v);
     });
+    if (on) playShot();
   };
   motionBtn?.addEventListener('click', () => setMotion(!motionOn));
   if (!motionOn) setMotion(false);
   reducedMotion.addEventListener?.('change', (e) => setMotion(!e.matches));
-
-  /* ---------- Product tour: the screen follows the step ---------- */
-  const tour = $('[data-tour]');
-  const wide = window.matchMedia('(min-width: 1024px)');
-  let tourInView = false;
-  if (tour && 'IntersectionObserver' in window) {
-    const steps = $$('.tour-step', tour);
-    const videos = $$('[data-tour-video]', tour);
-    const url = $('[data-tour-url]', tour);
-    const phone = $('[data-tour-phone]', tour);
-    let current = 'chat';
-    const activate = (name) => {
-      current = name;
-      steps.forEach((s) => s.classList.toggle('is-active', s.dataset.step === name));
-      const step = steps.find((s) => s.dataset.step === name);
-      if (url && step) url.textContent = step.dataset.url;
-      phone?.classList.toggle('is-on', !!step?.hasAttribute('data-phone'));
-      videos.forEach((v) => {
-        const on = v.dataset.tourVideo === name;
-        v.classList.toggle('is-active', on);
-        if (on && wide.matches && tourInView) { v.currentTime = 0; tryPlay(v); } else v.pause();
-      });
-    };
-    // A step is current while it crosses the middle of the screen.
-    const stepIO = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting && wide.matches) activate(e.target.dataset.step); });
-    }, { rootMargin: '-45% 0px -50% 0px' });
-    steps.forEach((s) => stepIO.observe(s));
-    // The big screen only plays while the tour is on screen.
-    new IntersectionObserver(([e]) => {
-      tourInView = e.isIntersecting;
-      const v = videos.find((x) => x.dataset.tourVideo === current);
-      if (!v || !wide.matches) return;
-      if (tourInView) tryPlay(v); else v.pause();
-    }, { rootMargin: '100px 0px' }).observe(tour);
-  }
 
   /* ---------- Reveal on scroll ---------- */
   if ('IntersectionObserver' in window && !reducedMotion.matches) {
@@ -217,6 +229,7 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
   const film = $('[data-film]');
   $$('[data-film-open]').forEach((b) => b.addEventListener('click', () => {
     if (!film.dataset.loaded) {
+      film.poster = 'assets/img/posters/film.webp';
       film.dataset.loaded = '1';
       [['mp4', 'video/mp4'], ['webm', 'video/webm']].forEach(([ext, type]) => {
         const s = document.createElement('source');
@@ -231,18 +244,6 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
     if (p && p.catch) p.catch(() => {});
   }));
   filmDlg?.addEventListener('close', () => film.pause());
-
-  /* ---------- Copy buttons ---------- */
-  $$('[data-copy]').forEach((b) => b.addEventListener('click', async () => {
-    const label = $('span', b);
-    try {
-      await navigator.clipboard.writeText(b.dataset.copy);
-      label.textContent = 'Copied';
-    } catch (e) {
-      label.textContent = 'Select and copy';
-    }
-    setTimeout(() => { label.textContent = 'Copy'; }, 1800);
-  }));
 
   /* ---------- Sticky call to action on phones ---------- */
   const bar = $('[data-mobile-cta]');
@@ -259,8 +260,8 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
     if (lastCta) io.observe(lastCta);
   }
 
-  /* ---------- Customers page: the chip for the section in view ---------- */
-  const typeLinks = $$('.type-nav a');
+  /* ---------- Customers page: the link for the section in view ---------- */
+  const typeLinks = $$('.type-index a');
   if (typeLinks.length && 'IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {

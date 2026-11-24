@@ -87,6 +87,12 @@
 
 <a class="skip" href="#main">Skip to content</a>
 
+<aside class="topline" aria-label="Announcement">
+  <div class="container">
+    <a class="topline-link" href="./#buy"><span class="topline-tag">TeamUp 1.0</span><span class="topline-text">One licence for your company, on your own server</span><svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+  </div>
+</aside>
+
 <header class="site-header" data-header>
   <div class="container header-inner">
     <a class="brand" href="./" aria-label="TeamUp home">
@@ -98,7 +104,7 @@
         <svg aria-hidden="true"><use href="#i-menu"/></svg><span class="sr-only">Menu</span>
       </button>
       <ul class="nav-list" id="nav-list" data-nav-list>
-        <li><a href="./#tour">Product</a></li>
+        <li><a href="./#product">Product</a></li>
         <li><a href="./#calls">Calls</a></li>
         <li><a href="./#scrum">Scrum</a></li>
         <li><a href="./#own">Your server</a></li>
@@ -119,150 +125,166 @@
 
 <main id="main">
 
-<section class="page-hero" aria-labelledby="c-title">
-  <div class="container story">
-    <div>
-      <nav class="crumbs" aria-label="Breadcrumb"><a href="./">TeamUp</a><span aria-hidden="true">/</span><span aria-current="page">Customers</span></nav>
-      <h1 id="c-title"><span class="hero-kicker">TeamUp customers and use cases</span> Runs Cognecto <span class="grad">every day.</span></h1>
-      <p class="lede">Cognecto runs its working day on TeamUp, on its own server: stand-ups every morning, dozens of people in calls, and the tasks and scrum that come out of them.</p>
-      <div class="stat-grid">
-        <div class="stat"><strong>Stand-ups</strong><span>every morning, with attendance from the call</span></div>
-        <div class="stat"><strong>Calls</strong><span>with dozens of people at a time</span></div>
-        <div class="stat"><strong>Scrum</strong><span>the tasks that come out of each stand-up</span></div>
+<section class="hero page-hero" aria-labelledby="c-title">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="container hero-inner">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="./">TeamUp</a><span aria-hidden="true">/</span><span aria-current="page">Customers</span></nav>
+    <h1 id="c-title" class="hero-title"><span class="hero-kicker">TeamUp customers and use cases</span> Runs Cognecto <span class="accent">every day.</span></h1>
+    <p class="hero-sub">Cognecto runs its working day on TeamUp, on its own server: <span class="nb">stand-ups</span> every morning, dozens of people in calls, and the tasks and scrum that come out of them.</p>
+    <div class="cta-row cta-center">
+      <a class="btn btn-primary btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens a booking page in a new tab)</span></a>
+      <a class="btn btn-ghost btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
+    </div>
+  </div>
+  <div class="container story-wrap">
+    <div class="story-grid">
+      <figure class="window story-window">
+        <div class="window-bar"><span></span><span></span><span></span><b>teamup.nimbuslabs.test/calls</b>
+          <button class="motion-btn" type="button" data-motion-toggle aria-pressed="false">
+            <svg class="when-playing" aria-hidden="true"><use href="#i-pause"/></svg>
+            <svg class="when-paused" aria-hidden="true"><use href="#i-play"/></svg>
+            <span data-motion-label>Pause videos</span>
+          </button>
+        </div>
+        <div class="window-screen">
+          <video muted loop playsinline preload="none" data-lazy-video data-name="standup" data-poster="standup"></video>
+        </div>
+        <figcaption class="sr-only">Screen recording: creating a daily stand-up for the backend team in TeamUp, at the demo company Nimbus Labs</figcaption>
+      </figure>
+      <dl class="spec-grid spec-stack">
+        <div class="spec"><dt>Stand-ups</dt><dd>every morning, with attendance from the call</dd></div>
+        <div class="spec"><dt>Calls</dt><dd>with dozens of people at a time</dd></div>
+        <div class="spec"><dt>Scrum</dt><dd>the tasks that come out of each stand-up</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="section loop-section" aria-labelledby="day-title">
+  <div class="container">
+    <div class="chapter-head reveal">
+      <p class="eyebrow">The daily loop</p>
+      <h2 id="day-title">From stand-up to done, in one place</h2>
+      <p class="lede">The loop a team like Cognecto's runs on TeamUp. Every step below is a feature in TeamUp 1.0.</p>
+    </div>
+    <ol class="loop reveal">
+      <li><time>Morning</time><span>The stand-up opens for the teams it is for. Attendance comes from the call, with leave and holidays shown.</span></li>
+      <li><time>Right after</time><span>The scrum table: each person, their lead, Task 1, Task 2 and on, what they finished, and what is blocked and why.</span></li>
+      <li><time>All day</time><span>Channels, threads and @mentions, with a call one tap away from any conversation.</span></li>
+      <li><time>After each call</time><span>Minutes with decisions and owners go to everybody who was there.</span></li>
+      <li><time>On the calendar</time><span>Calls show for the time each person was really in them.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="section types-section" aria-labelledby="built-title">
+  <div class="container">
+    <div class="chapter-head reveal">
+      <p class="eyebrow">Built for</p>
+      <h2 id="built-title">Five kinds of teams, one workspace</h2>
+      <p class="lede">The workflow TeamUp supports for each, using only what is in the product today.</p>
+    </div>
+    <div class="types-layout">
+      <nav class="type-index" aria-label="Team types">
+        <ul>
+          <li><a href="#eng"><span class="type-n" aria-hidden="true">01</span>Engineering and product</a></li>
+          <li><a href="#field"><span class="type-n" aria-hidden="true">02</span>Field operations</a></li>
+          <li><a href="#hr"><span class="type-n" aria-hidden="true">03</span>HR and attendance</a></li>
+          <li><a href="#agency"><span class="type-n" aria-hidden="true">04</span>Agencies and consultancies</a></li>
+          <li><a href="#schools"><span class="type-n" aria-hidden="true">05</span>Schools and training</a></li>
+        </ul>
+      </nav>
+      <div class="types">
+        <article class="type" id="eng" aria-labelledby="eng-title">
+          <div class="type-head">
+            <p class="chapter-num"><span>01</span><svg aria-hidden="true"><use href="#i-code"/></svg></p>
+            <h3 id="eng-title">Engineering and product teams</h3>
+            <p>Stand-up, scrum, build, review. The loop engineers run every day, without four tools and four logins.</p>
+            <div class="chips"><span>Scrum table</span><span>Board</span><span>Due dates</span><span>Threads</span><span>Screen share</span><span>Meeting notes</span></div>
+          </div>
+          <ol class="flow-steps">
+            <li><b>A stand-up for Engineering only</b><span>A standing meeting for chosen teams, on the days and time you set, with attendance from the call itself.</span></li>
+            <li><b>The scrum as a table</b><span>Each person, their lead, Task 1, Task 2 and on, Done, and Blocked on with the reason. Each viewer arranges people in their own order. <a href="./#scrum">Try it</a></span></li>
+            <li><b>Talk it through, then call</b><span>Threads and @mentions keep the discussion together, and screen share works without the endless mirror.</span></li>
+            <li><b>Minutes become action items</b><span>Summary, decisions and action items with owners, sent to everybody who was in the call.</span></li>
+          </ol>
+        </article>
+
+        <article class="type" id="field" aria-labelledby="field-title">
+          <div class="type-head">
+            <p class="chapter-num"><span>02</span><svg aria-hidden="true"><use href="#i-phone"/></svg></p>
+            <h3 id="field-title">Field operations</h3>
+            <p>People on the move, on phones, on patchy networks. TeamUp keeps them talking.</p>
+            <div class="chips"><span>Installs on phones</span><span>Voice messages</span><span>Weak-connection mode</span><span>Audio only</span><span>Laptop and phone</span></div>
+          </div>
+          <ol class="flow-steps">
+            <li><b>On the home screen</b><span>TeamUp installs to an Android or iPhone home screen and opens full screen. There is also an Android app that opens your server.</span></li>
+            <li><b>Report with voice and video</b><span>Voice and video messages recorded on the spot in any conversation, with several files at once.</span></li>
+            <li><b>Calls that hold on weak networks</b><span>Voice comes first: the camera pauses with a reason everyone sees, and Audio only saves data. <a href="./#calls">Try it</a></span></li>
+            <li><b>Laptop and phone in one call</b><span>Join from both for a second angle. Everybody still counts you once.</span></li>
+          </ol>
+        </article>
+
+        <article class="type" id="hr" aria-labelledby="hr-title">
+          <div class="type-head">
+            <p class="chapter-num"><span>03</span><svg aria-hidden="true"><use href="#i-users"/></svg></p>
+            <h3 id="hr-title">HR and attendance</h3>
+            <p>Know who was there, who is on leave and which days are holidays, without chasing a spreadsheet.</p>
+            <div class="chips"><span>Attendance</span><span>Leave</span><span>Holidays</span><span>Custom roles</span><span>Team tree</span><span>Welcome email</span></div>
+          </div>
+          <ol class="flow-steps">
+            <li><b>Attendance from the call</b><span>Stand-ups record who joined and when, from the call server's own events, not from a form.</span></li>
+            <li><b>Leave and holidays</b><span>Leave and organization holidays show in stand-up attendance. The person, their manager or an administrator records leave.</span></li>
+            <li><b>Onboarding in one step</b><span>Every new member gets a welcome email with sign-in details, then a short welcome tour at first sign-in.</span></li>
+            <li><b>Roles and teams</b><span>Custom roles with fine-grained permissions, a team tree, and managers who can read the calendars of the people on their teams.</span></li>
+          </ol>
+        </article>
+
+        <article class="type" id="agency" aria-labelledby="agency-title">
+          <div class="type-head">
+            <p class="chapter-num"><span>04</span><svg aria-hidden="true"><use href="#i-door"/></svg></p>
+            <h3 id="agency-title">Agencies and consultancies</h3>
+            <p>Client calls that look like your company, and notes nobody has to write.</p>
+            <div class="chips"><span>Guests by link</span><span>Company backgrounds</span><span>Your colour and logo</span><span>Meeting notes</span><span>Private channels</span></div>
+          </div>
+          <ol class="flow-steps">
+            <li><b>Clients join by link</b><span>Guests join a meeting with their name and a passcode, and the organizer can remove them.</span></li>
+            <li><b>Look like your company</b><span>Company call backgrounds carry each person's name, and the app shows your organization's colour and logo.</span></li>
+            <li><b>Minutes after every client call</b><span>Summary, decisions and action items with owners, kept under Meeting notes.</span></li>
+            <li><b>Keep clients apart</b><span>Private channels for each client, and search that only shows what each person may see.</span></li>
+          </ol>
+        </article>
+
+        <article class="type" id="schools" aria-labelledby="schools-title">
+          <div class="type-head">
+            <p class="chapter-num"><span>05</span><svg aria-hidden="true"><use href="#i-hand"/></svg></p>
+            <h3 id="schools-title">Schools and training</h3>
+            <p>Classes and cohorts that meet on a schedule, with a record of who came.</p>
+            <div class="chips"><span>Standing meetings</span><span>Attendance</span><span>Raise hand</span><span>Screen share</span><span>Announcements</span><span>Guests</span></div>
+          </div>
+          <ol class="flow-steps">
+            <li><b>A standing class for each cohort</b><span>Standing meetings for chosen teams or people, on the days and time you set.</span></li>
+            <li><b>Attendance every session</b><span>Taken from the call itself, with leave and holidays marked.</span></li>
+            <li><b>Hands up, screens shared</b><span>Raised hands queue in order, and the teacher shares a screen to the whole class.</span></li>
+            <li><b>Announcements and guest speakers</b><span>Announcement channels for the whole school, and guest speakers who join by link with a passcode.</span></li>
+          </ol>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta" aria-labelledby="final-title">
+  <div class="container">
+    <div class="final-card reveal">
+      <div>
+        <h2 id="final-title">See it with your team's day</h2>
+        <p class="lede">We will walk through TeamUp with the way your team works, then send a quote for your company.</p>
       </div>
       <div class="cta-row">
         <a class="btn btn-primary btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens a booking page in a new tab)</span></a>
         <a class="btn btn-ghost btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
       </div>
-    </div>
-    <figure class="story-media"><figcaption class="sr-only">Screen recording: creating a daily stand-up for the backend team in TeamUp, at the demo company Nimbus Labs</figcaption>
-      <video muted loop playsinline preload="none" data-lazy-video data-name="standup" data-poster="standup"></video>
-    </figure>
-  </div>
-</section>
-
-<section class="section section-alt" aria-labelledby="day-title">
-  <div class="container story">
-    <div>
-      <p class="eyebrow">The daily loop</p>
-      <h2 id="day-title">From stand-up to done, in one place</h2>
-      <p class="lede">The loop a team like Cognecto's runs on TeamUp. Every step below is a feature in TeamUp 1.0.</p>
-    </div>
-    <ol class="day-list">
-      <li><time>Morning</time>The stand-up opens for the teams it is for. Attendance comes from the call, with leave and holidays shown.</li>
-      <li><time>Right after</time>The scrum table: each person, their lead, Task 1, Task 2 and on, what they finished, and what is blocked and why.</li>
-      <li><time>All day</time>Channels, threads and @mentions, with a call one tap away from any conversation.</li>
-      <li><time>After each call</time>Minutes with decisions and owners go to everybody who was there.</li>
-      <li><time>On the calendar</time>Calls show for the time each person was really in them.</li>
-    </ol>
-  </div>
-</section>
-
-<nav class="type-nav" aria-label="Team types">
-  <div class="container">
-    <ul>
-      <li><a href="#eng"><svg aria-hidden="true"><use href="#i-code"/></svg>Engineering and product</a></li>
-      <li><a href="#field"><svg aria-hidden="true"><use href="#i-phone"/></svg>Field operations</a></li>
-      <li><a href="#hr"><svg aria-hidden="true"><use href="#i-users"/></svg>HR and attendance</a></li>
-      <li><a href="#agency"><svg aria-hidden="true"><use href="#i-door"/></svg>Agencies and consultancies</a></li>
-      <li><a href="#schools"><svg aria-hidden="true"><use href="#i-hand"/></svg>Schools and training</a></li>
-    </ul>
-  </div>
-</nav>
-
-<section class="section types-section" aria-labelledby="built-title">
-  <div class="container">
-    <div class="section-head reveal">
-      <p class="eyebrow">Built for</p>
-      <h2 id="built-title">Five kinds of teams, one workspace</h2>
-      <p class="lede">The workflow TeamUp supports for each, using only what is in the product today.</p>
-    </div>
-
-    <article class="type" id="eng" aria-labelledby="eng-title">
-      <div class="type-head">
-        <span class="promise-icon"><svg aria-hidden="true"><use href="#i-code"/></svg></span>
-        <h3 id="eng-title">Engineering and product teams</h3>
-        <p>Stand-up, scrum, build, review. The loop engineers run every day, without four tools and four logins.</p>
-        <div class="chips"><span>Scrum table</span><span>Board</span><span>Due dates</span><span>Threads</span><span>Screen share</span><span>Meeting notes</span></div>
-      </div>
-      <ol class="flow-steps">
-        <li><div><b>A stand-up for Engineering only</b><span>A standing meeting for chosen teams, on the days and time you set, with attendance from the call itself.</span></div></li>
-        <li><div><b>The scrum as a table</b><span>Each person, their lead, Task 1, Task 2 and on, Done, and Blocked on with the reason. Each viewer arranges people in their own order. <a href="./#scrum">Try it</a></span></div></li>
-        <li><div><b>Talk it through, then call</b><span>Threads and @mentions keep the discussion together, and screen share works without the endless mirror.</span></div></li>
-        <li><div><b>Minutes become action items</b><span>Summary, decisions and action items with owners, sent to everybody who was in the call.</span></div></li>
-      </ol>
-    </article>
-
-    <article class="type" id="field" aria-labelledby="field-title">
-      <div class="type-head">
-        <span class="promise-icon"><svg aria-hidden="true"><use href="#i-phone"/></svg></span>
-        <h3 id="field-title">Field operations</h3>
-        <p>People on the move, on phones, on patchy networks. TeamUp keeps them talking.</p>
-        <div class="chips"><span>Installs on phones</span><span>Voice messages</span><span>Weak-connection mode</span><span>Audio only</span><span>Laptop and phone</span></div>
-      </div>
-      <ol class="flow-steps">
-        <li><div><b>On the home screen</b><span>TeamUp installs to an Android or iPhone home screen and opens full screen. There is also an Android app that opens your server.</span></div></li>
-        <li><div><b>Report with voice and video</b><span>Voice and video messages recorded on the spot in any conversation, with several files at once.</span></div></li>
-        <li><div><b>Calls that hold on weak networks</b><span>Voice comes first: the camera pauses with a reason everyone sees, and Audio only saves data. <a href="./#calls">Try it</a></span></div></li>
-        <li><div><b>Laptop and phone in one call</b><span>Join from both for a second angle. Everybody still counts you once.</span></div></li>
-      </ol>
-    </article>
-
-    <article class="type" id="hr" aria-labelledby="hr-title">
-      <div class="type-head">
-        <span class="promise-icon"><svg aria-hidden="true"><use href="#i-users"/></svg></span>
-        <h3 id="hr-title">HR and attendance</h3>
-        <p>Know who was there, who is on leave and which days are holidays, without chasing a spreadsheet.</p>
-        <div class="chips"><span>Attendance</span><span>Leave</span><span>Holidays</span><span>Custom roles</span><span>Team tree</span><span>Welcome email</span></div>
-      </div>
-      <ol class="flow-steps">
-        <li><div><b>Attendance from the call</b><span>Stand-ups record who joined and when, from the call server's own events, not from a form.</span></div></li>
-        <li><div><b>Leave and holidays</b><span>Leave and organization holidays show in stand-up attendance. The person, their manager or an administrator records leave.</span></div></li>
-        <li><div><b>Onboarding in one step</b><span>Every new member gets a welcome email with sign-in details, then a short welcome tour at first sign-in.</span></div></li>
-        <li><div><b>Roles and teams</b><span>Custom roles with fine-grained permissions, a team tree, and managers who can read the calendars of the people on their teams.</span></div></li>
-      </ol>
-    </article>
-
-    <article class="type" id="agency" aria-labelledby="agency-title">
-      <div class="type-head">
-        <span class="promise-icon"><svg aria-hidden="true"><use href="#i-door"/></svg></span>
-        <h3 id="agency-title">Agencies and consultancies</h3>
-        <p>Client calls that look like your company, and notes nobody has to write.</p>
-        <div class="chips"><span>Guests by link</span><span>Company backgrounds</span><span>Your colour and logo</span><span>Meeting notes</span><span>Private channels</span></div>
-      </div>
-      <ol class="flow-steps">
-        <li><div><b>Clients join by link</b><span>Guests join a meeting with their name and a passcode, and the organizer can remove them.</span></div></li>
-        <li><div><b>Look like your company</b><span>Company call backgrounds carry each person's name, and the app shows your organization's colour and logo.</span></div></li>
-        <li><div><b>Minutes after every client call</b><span>Summary, decisions and action items with owners, kept under Meeting notes.</span></div></li>
-        <li><div><b>Keep clients apart</b><span>Private channels for each client, and search that only shows what each person may see.</span></div></li>
-      </ol>
-    </article>
-
-    <article class="type" id="schools" aria-labelledby="schools-title">
-      <div class="type-head">
-        <span class="promise-icon"><svg aria-hidden="true"><use href="#i-hand"/></svg></span>
-        <h3 id="schools-title">Schools and training</h3>
-        <p>Classes and cohorts that meet on a schedule, with a record of who came.</p>
-        <div class="chips"><span>Standing meetings</span><span>Attendance</span><span>Raise hand</span><span>Screen share</span><span>Announcements</span><span>Guests</span></div>
-      </div>
-      <ol class="flow-steps">
-        <li><div><b>A standing class for each cohort</b><span>Standing meetings for chosen teams or people, on the days and time you set.</span></div></li>
-        <li><div><b>Attendance every session</b><span>Taken from the call itself, with leave and holidays marked.</span></div></li>
-        <li><div><b>Hands up, screens shared</b><span>Raised hands queue in order, and the teacher shares a screen to the whole class.</span></div></li>
-        <li><div><b>Announcements and guest speakers</b><span>Announcement channels for the whole school, and guest speakers who join by link with a passcode.</span></div></li>
-      </ol>
-    </article>
-  </div>
-</section>
-
-<section class="final-cta" aria-labelledby="final-title">
-  <div class="container final-inner reveal">
-    <span class="brand-mark brand-mark-lg" aria-hidden="true"><svg><use href="#i-logo"/></svg></span>
-    <h2 id="final-title">See it with your team's day</h2>
-    <p class="lede">We will walk through TeamUp with the way your team works, then send a quote for your company.</p>
-    <div class="cta-row cta-center">
-      <a class="btn btn-primary btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo <svg aria-hidden="true"><use href="#i-arrow"/></svg><span class="sr-only"> (opens a booking page in a new tab)</span></a>
-      <a class="btn btn-ghost btn-lg" href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a>
     </div>
   </div>
 </section>
@@ -270,19 +292,22 @@
 </main>
 
 <footer class="site-footer">
-  <div class="container footer-inner">
-    <div class="footer-brand">
-      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><svg><use href="./#i-logo"/></svg></span><span class="brand-name">TeamUp</span></a>
-      <p class="small muted">Chat, calls, tasks and files on your own server. One licence for your company.</p>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="brand" href="./"><span class="brand-mark" aria-hidden="true"><svg><use href="#i-logo"/></svg></span><span class="brand-name">TeamUp</span></a>
+        <p class="small muted">Chat, calls, tasks and files on your own server. One licence for your company.</p>
+      </div>
+      <nav class="footer-links" aria-label="Footer">
+        <div><p class="footer-h">Product</p><a href="./#product">Tour</a><a href="./#calls">Calls</a><a href="./#notes">Meeting notes</a><a href="./#scrum">Scrum</a></div>
+        <div><p class="footer-h">Company</p><a href="customers.html">Customers</a><a href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo<span class="sr-only"> (opens a booking page in a new tab)</span></a><a href="./#faq">FAQ</a></div>
+        <div><p class="footer-h">Buying</p><a href="./#buy">How you buy</a><a href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a><a href="./#own">Your server, your data</a></div>
+      </nav>
     </div>
-    <nav class="footer-links" aria-label="Footer">
-      <div><p class="footer-h">Product</p><a href="./#tour">Tour</a><a href="./#calls">Calls</a><a href="./#notes">Meeting notes</a><a href="./#scrum">Scrum</a></div>
-      <div><p class="footer-h">Company</p><a href="customers.html">Customers</a><a href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Book a demo<span class="sr-only"> (opens a booking page in a new tab)</span></a><a href="./#faq">FAQ</a></div>
-      <div><p class="footer-h">Buying</p><a href="./#buy">How you buy</a><a href="https://calendar.app.google/N49RsbFjwGHiVa6d6" target="_blank" rel="noopener" data-demo>Get a quote<span class="sr-only"> (opens a booking page in a new tab)</span></a><a href="./#own">Your server, your data</a></div>
-    </nav>
-  </div>
-  <div class="container footer-base">
-    <p class="tiny muted">© 2026 Himanshu Kumar Jha. All rights reserved. This site has no trackers, analytics or cookies. Product screens show the made-up company Nimbus Labs, not customer data.</p>
+    <p class="footer-word" aria-hidden="true">TeamUp</p>
+    <div class="footer-base">
+      <p class="tiny muted">© 2026 Himanshu Kumar Jha. All rights reserved. This site has no trackers, analytics or cookies. Product screens show the made-up company Nimbus Labs, not customer data.</p>
+    </div>
   </div>
 </footer>
 
