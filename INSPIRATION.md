@@ -30,7 +30,7 @@ This replaces the first design's scroll-following tour.
 ## Raycast, June 2022 (snapshot 20220603183932)
 
 A dark bento grid of feature tiles, each with a small real UI crop, plus a values block about data staying local.
-**Borrowed:** "A working day in TeamUp" is a bento grid of recorded screens (stand-ups, calendar, search, phone, server health) with the 70-second film as the large tile.
+**Borrowed:** "A working day in TeamUp" is a bento grid of recorded screens (stand-ups, search, phone, server health), with the stand-up recording as the large tile.
 
 ## Loom 2021 and Notion 2020 (from memory; the archive did not serve them)
 

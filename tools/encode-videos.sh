@@ -11,7 +11,6 @@
 set -euo pipefail
 
 LIVE="${LIVE:-$HOME/Documents/Ongoing_Projects/teamup-linkedin/capture/live}"
-FILM="${FILM:-$HOME/Documents/Ongoing_Projects/teamup-linkedin/videos/teamup-launch/renders/video.mp4}"
 OUT="assets/video"
 POST="assets/img/posters"
 mkdir -p "$OUT" "$POST"
@@ -25,7 +24,8 @@ CLIPS=(
   "calendar 0    9.2   8"
   "standup  0    12    11.5"
   "search   0    5.4   4.5"
-  "system   0    7.4   1"
+  # From 5 s, below the disk gauge: the demo machine was nearly full.
+  "system   5    2.4   6"
 )
 
 loop() { # src start len width out-base
@@ -58,13 +58,5 @@ done
 echo "· phone"
 loop "$LIVE/phone.mp4" 0 5.1 360 "$OUT/phone"
 poster "$LIVE/phone.mp4" 4.5 360 "$POST/phone"
-
-# The 70-second launch film, with its narration, played only when asked for.
-echo "· film"
-ffmpeg -v error -y -i "$FILM" -vf "scale=1280:-2:flags=lanczos,format=yuv420p" \
-  -c:v libx264 -profile:v high -preset slow -crf 27 -c:a aac -b:a 96k -movflags +faststart "$OUT/film.mp4"
-ffmpeg -v error -y -i "$FILM" -vf "scale=1280:-2:flags=lanczos,format=yuv420p" \
-  -c:v libvpx-vp9 -b:v 0 -crf 38 -row-mt 1 -deadline good -cpu-used 2 -c:a libopus -b:a 64k "$OUT/film.webm"
-poster "$FILM" 6 1280 "$POST/film"
 
 du -ch "$OUT"/* | tail -1

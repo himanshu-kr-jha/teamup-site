@@ -200,22 +200,6 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
     $$('.reveal').forEach((el) => el.classList.add('is-in'));
   }
 
-  /* ---------- Dialogs ---------- */
-  const openDialog = (dlg) => {
-    if (!dlg) return;
-    if (typeof dlg.showModal === 'function') { if (!dlg.open) dlg.showModal(); } else dlg.setAttribute('open', '');
-  };
-  $$('dialog').forEach((dlg) => {
-    dlg.addEventListener('click', (e) => {
-      if (e.target.closest('[data-close]')) { dlg.close(); return; }
-      if (e.target === dlg) {
-        const r = dlg.getBoundingClientRect();
-        const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
-        if (!inside) dlg.close();
-      }
-    });
-  });
-
   /* Book a demo and Get a quote both open the booking page. */
   $$('[data-demo]').forEach((a) => {
     a.href = DEMO_URL;
@@ -223,27 +207,6 @@ const DEMO_URL = 'https://calendar.app.google/N49RsbFjwGHiVa6d6';
     a.rel = 'noopener';
     a.addEventListener('click', closeNav);
   });
-
-  /* The launch film */
-  const filmDlg = $('[data-film-dialog]');
-  const film = $('[data-film]');
-  $$('[data-film-open]').forEach((b) => b.addEventListener('click', () => {
-    if (!film.dataset.loaded) {
-      film.poster = 'assets/img/posters/film.webp';
-      film.dataset.loaded = '1';
-      [['mp4', 'video/mp4'], ['webm', 'video/webm']].forEach(([ext, type]) => {
-        const s = document.createElement('source');
-        s.src = `assets/video/film.${ext}`;
-        s.type = type;
-        film.insertBefore(s, film.firstChild);
-      });
-      film.load();
-    }
-    openDialog(filmDlg);
-    const p = film.play();
-    if (p && p.catch) p.catch(() => {});
-  }));
-  filmDlg?.addEventListener('close', () => film.pause());
 
   /* ---------- Sticky call to action on phones ---------- */
   const bar = $('[data-mobile-cta]');

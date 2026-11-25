@@ -142,12 +142,6 @@ async function overflow(page) {
     if (tabState !== 'tab-tasks tab-tasks panel-tasks') note(`product window @${tag}: ${tabState}`);
     await page.locator('[data-showcase]').screenshot({ path: path.join(OUT, `demo-window-${tag}.png`) });
 
-    // The film opens, plays and closes with Escape.
-    await page.locator('[data-film-open]').click();
-    await page.waitForTimeout(800);
-    if (!(await page.evaluate(() => document.querySelector('[data-film-dialog]').open))) note(`film @${tag}: did not open`);
-    await page.keyboard.press('Escape');
-
     await page.locator('#chat-input').scrollIntoViewIfNeeded();
     await page.locator('#chat-input').click();
     await page.keyboard.type('Thanks @an');

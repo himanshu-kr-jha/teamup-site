@@ -6,11 +6,11 @@ No trackers, analytics or cookies; everything is served from this folder.
 ## Preview
 
 ```bash
-python3 -m http.server 4174
+python3 -m http.server 4173
 ```
 
-Then open http://localhost:4174/.
-This is the second design, on the `redesign` branch; [INSPIRATION.md](INSPIRATION.md) says where its ideas come from.
+Then open http://localhost:4173/.
+This is the second design; [INSPIRATION.md](INSPIRATION.md) says where its ideas come from, and the `design-1` tag holds the first one.
 Before publishing, go through [CONFIRM.md](CONFIRM.md).
 
 ## Layout

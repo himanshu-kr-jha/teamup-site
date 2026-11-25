@@ -393,22 +393,13 @@ html.is-loaded { scroll-behavior: smooth; }
 .tile-text p { text-wrap: pretty; margin-top: 8px; color: var(--muted); max-width: 34rem; }
 .tile-media { margin: auto 0 0 28px; border: 1px solid var(--border-strong); border-width: 1px 0 0 1px; border-radius: 14px 0 0 0; overflow: hidden; background: #f8fafc; }
 .tile-media video { width: 100%; aspect-ratio: 640 / 400; object-fit: cover; object-position: left top; }
-.tile-film { grid-column: 1 / span 8; grid-row: 1; }
-.tile-phone-card { grid-column: 9 / span 4; grid-row: 1 / span 2; }
-.tile-wide { grid-column: 1 / span 8; grid-row: 2; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
-.tile-wide .tile-text { align-self: center; }
-.tile-wide .tile-media { margin: 28px 0 0; align-self: end; }
-.bento > .tile-card:nth-child(4), .bento > .tile-card:nth-child(5) { grid-column: span 6; }
+.tile-phone-card { grid-column: 9 / span 4; }
+.tile-wide { grid-column: 1 / span 8; }
+.bento > .tile-card:nth-child(3), .bento > .tile-card:nth-child(4) { grid-column: span 6; }
 .phone-media { width: min(340px, 86%); margin: auto auto 0; border-width: 8px 8px 0; border-color: var(--surface-3); border-radius: 34px 34px 0 0; }
-.phone-media video { aspect-ratio: 360 / 740; object-position: top; }
-.film-btn { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #020817; overflow: hidden; }
-.film-btn img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
-.film-btn:hover img { transform: scale(1.02); }
-.film-btn:focus-visible { outline-offset: -4px; outline-width: 3px; }
-.film-play { position: absolute; left: 24px; bottom: 24px; display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 22px 0 18px; border-radius: 999px; background: #fff; color: #1e1b4b; font-weight: 600; box-shadow: 0 12px 32px -8px rgb(0 0 0 / .6); }
-.film-play svg { width: 18px; height: 18px; fill: currentColor !important; }
+.phone-media video { aspect-ratio: 360 / 560; object-position: top; }
 @media (max-width: 1023px) {
-  .tile-film, .tile-wide, .tile-phone-card { grid-column: 1 / -1; grid-row: auto; }
+  .tile-wide, .tile-phone-card { grid-column: 1 / -1; }
   .tile-phone-card { display: grid; grid-template-columns: 1fr 1fr; }
   .tile-phone-card .tile-text { align-self: center; }
   .phone-media { margin-top: 28px; }
@@ -419,10 +410,9 @@ html.is-loaded { scroll-behavior: smooth; }
   .bento { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .bento > .tile-card:nth-child(n) { grid-column: auto; }
   .tile-text { padding: 22px 20px 18px; }
-  .tile-wide .tile-text, .tile-phone-card .tile-text { align-self: auto; }
-  .tile-media, .tile-wide .tile-media { margin: auto 0 0 20px; align-self: auto; }
+  .tile-phone-card .tile-text { align-self: auto; }
+  .tile-media { margin: auto 0 0 20px; align-self: auto; }
   .phone-media { margin: 4px auto 0 !important; }
-  .film-play { left: 14px; bottom: 14px; min-height: 44px; padding: 0 16px 0 13px; font-size: .9rem; }
 }
 
 /* ---------- How you buy ---------- */
@@ -957,18 +947,6 @@ input[type='range']:focus-visible { outline-offset: 0; }
 @media (max-width: 400px) { .roi-row { grid-template-columns: minmax(0, 1fr); } }
 
 /* ---------- Modals ---------- */
-.modal {
-  width: min(560px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); padding: 0; border-radius: 20px;
-  border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); box-shadow: 0 40px 100px -20px rgb(0 0 0 / .6);
-}
-.modal::backdrop { background: rgb(2 8 23 / .7); backdrop-filter: blur(4px); }
-.modal[open] { animation: modal-in .25s cubic-bezier(.2, .9, .3, 1); }
-@keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(.98); } }
-.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.modal-head h2 { font-size: 1.5rem; }
-.modal-film .modal-head { margin-bottom: 12px; }
-.modal-film h2 { font-size: 1.2rem; }
-.modal-film video { width: 100%; aspect-ratio: 16 / 9; border-radius: 12px; background: #000; }
 
 .scrum tbody th { text-align: left; text-transform: none; letter-spacing: 0; font-size: 0.86rem; color: var(--text); background: var(--surface); padding: 10px; border-bottom: 1px solid var(--border); white-space: nowrap; }
 .scrum tbody tr:last-child th { border-bottom: 0; }

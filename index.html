@@ -31,9 +31,9 @@
   <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script src="assets/js/theme.js"></script>
-  <link rel="stylesheet" href="assets/css/site.css">
-  <script src="assets/js/main.js" defer></script>
-  <script src="assets/js/demos.js" defer></script>
+  <link rel="stylesheet" href="assets/css/site.css?v=2">
+  <script src="assets/js/main.js?v=2" defer></script>
+  <script src="assets/js/demos.js?v=2" defer></script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "TeamUp", "url": "https://himanshu-kr-jha.github.io/teamup-site/", "applicationCategory": "BusinessApplication", "applicationSubCategory": "Team collaboration", "operatingSystem": "Linux", "softwareVersion": "1.0", "image": "https://himanshu-kr-jha.github.io/teamup-site/assets/img/og.png", "description": "Self-hosted team workspace: chat, video calls with AI meeting notes, tasks, calendar and files in one app on your own server.", "featureList": ["Team chat", "Video calls and screen sharing", "AI meeting notes", "Tasks and scrum table", "Stand-ups with attendance", "Calendar with Google Calendar sync", "Custom roles and permissions", "Installs on phones"], "offers": {"@type": "Offer", "description": "One-time licence for your company. Updates and server setup and maintenance are priced separately.", "url": "https://calendar.app.google/N49RsbFjwGHiVa6d6", "availability": "https://schema.org/InStock"}}</script>
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is it a subscription?", "acceptedAnswer": {"@type": "Answer", "text": "No. Your company buys a one-time licence and runs TeamUp on its own server. Updates and help with the server are separate, and only if you want them."}}, {"@type": "Question", "name": "Do we pay per user?", "acceptedAnswer": {"@type": "Answer", "text": "No. The licence covers your company, so adding people does not add a monthly fee. Your server is the one running cost, and a bigger team may need a bigger server."}}, {"@type": "Question", "name": "What do updates cost?", "acceptedAnswer": {"@type": "Answer", "text": "New versions are quoted per release or as a plan. You decide whether and when to update; the version you have keeps working."}}, {"@type": "Question", "name": "Can our own IT team run it?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Your IT team can install and maintain TeamUp themselves, or we can set up and look after the server for you, priced separately."}}, {"@type": "Question", "name": "What do I need to host it?", "acceptedAnswer": {"@type": "Answer", "text": "One Linux VM with Docker Compose is the recommended path. It runs TeamUp with Postgres, Redis, MinIO and LiveKit, and we can set it up for you, or your IT team can follow the guide from a fresh Ubuntu server to a running team. In our load test, a server with 2 processors carried about 500 busy people. Files can live in Amazon S3, Cloudflare R2 or Backblaze B2 instead."}}, {"@type": "Question", "name": "Where does our data live? Does anything leave the server?", "acceptedAnswer": {"@type": "Answer", "text": "Messages, tasks, the calendar and files stay in your Postgres and your S3 storage, and call media goes through LiveKit on your server. Things leave only when you switch them on: your mail server for email, Google Calendar sync, and the meeting note-taker, which sends call audio to Sarvam for speech to text and the transcript to the minutes model you pick, or to your own model."}}, {"@type": "Question", "name": "Does it work on phones?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every screen fits phones and tablets, and TeamUp installs to an Android or iPhone home screen. There is also an Android app that opens the same web app of your server, with iPhone to follow."}}, {"@type": "Question", "name": "What is not there yet?", "acceptedAnswer": {"@type": "Answer", "text": "Google and Microsoft sign-in are not finished, so password sign-in is the way in. Recording needs LiveKit Egress added in production. Federation, end-to-end encryption, native mobile apps and retention policies are not built."}}, {"@type": "Question", "name": "Is it ready for a real team?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Cognecto runs its working day on TeamUp 1.0: stand-ups every morning, dozens of people in calls, and the tasks and scrum that come out of them."}}, {"@type": "Question", "name": "Can people outside the company join a call?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Guests join a meeting by its link with their name and a passcode, and the organizer can remove them."}}, {"@type": "Question", "name": "What happens in a demo?", "acceptedAnswer": {"@type": "Answer", "text": "We show TeamUp running a team's day, answer your questions about running it on your server, and look at whether it fits how your team works. If it does, we send a quote."}}]}</script>
 </head>
@@ -578,25 +578,12 @@
       <p class="lede">Real screens, recorded in the app, at the made-up company Nimbus Labs.</p>
     </div>
     <div class="bento">
-      <article class="tile-card tile-film reveal">
-        <button class="film-btn" type="button" data-film-open>
-          <picture>
-            <source type="image/avif" srcset="assets/img/posters/film.avif">
-            <img src="assets/img/posters/film.webp" width="1280" height="720" alt="" loading="lazy">
-          </picture>
-          <span class="film-play"><svg aria-hidden="true"><use href="#i-play"/></svg>Watch the 70-second film</span>
-        </button>
-        <div class="tile-text">
-          <h3>TeamUp in 70 seconds</h3>
-          <p>The launch film, recorded in the app at the made-up company Nimbus Labs, with captions.</p>
-        </div>
-      </article>
       <article class="tile-card tile-wide reveal">
         <div class="tile-text">
           <h3>Stand-ups for just your team</h3>
           <p>Standing meetings for chosen teams or people, on the days and time you pick. Attendance comes from the call itself.</p>
         </div>
-        <figure class="tile-media"><video muted loop playsinline preload="none" data-lazy-video data-name="standup-sm" data-poster="standup-sm"></video><figcaption class="sr-only">Creating a backend stand-up for one team</figcaption></figure>
+        <figure class="tile-media"><video muted loop playsinline preload="none" data-lazy-video data-name="standup" data-poster="standup"></video><figcaption class="sr-only">Creating a backend stand-up for one team</figcaption></figure>
       </article>
       <article class="tile-card tile-phone-card reveal">
         <div class="tile-text">
@@ -874,16 +861,6 @@
     <div class="block-form-row"><button type="button" class="btn btn-ghost btn-sm" data-task-cancel>Cancel</button><button type="submit" class="btn btn-primary btn-sm">Save</button></div>
   </form>
 </div>
-
-<dialog class="modal modal-film" aria-label="TeamUp launch film" data-film-dialog>
-  <div class="modal-head">
-    <h2>TeamUp in 70 seconds</h2>
-    <button class="icon-btn" type="button" data-close aria-label="Close"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
-  </div>
-  <video controls playsinline preload="none" data-film>
-    <track kind="captions" src="assets/video/film.en.vtt" srclang="en" label="English" default>
-  </video>
-</dialog>
 
 </body>
 </html>
